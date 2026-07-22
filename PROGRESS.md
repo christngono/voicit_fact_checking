@@ -31,10 +31,11 @@ Corollaires :
 | Étape | Contenu | État |
 |-------|---------|------|
 | **1** | Couche LLM interchangeable + module **TEXTE** de bout en bout | ✅ **FAIT** |
-| 2 | Module **LIEN** (fetch page, réputation domaine, écart titre/contenu) | ⬜ à faire |
+| **2** | Module **LIEN** (fetch page, réputation domaine, écart titre/contenu) | ✅ **FAIT** |
 | 3 | Module **NUMÉRO** (consultation `data/numeros.json`, sans LLM) | ⬜ à faire |
 | 4 | Module **IMAGE** (`analyzeImage`, OCR + affirmation implicite) | ⬜ à faire |
 | — | Hero carrousel + header allégé (UI accueil) | ✅ FAIT (hors plan initial, demandé en cours) |
+| — | Navigation (barre basse 4 items + menu secondaire) + pages dédiées | ✅ FAIT (hors plan, demandé en cours) |
 
 **Méthode de travail convenue avec l'utilisateur : s'arrêter après chaque étape
 pour qu'il teste, avant d'enchaîner.**
@@ -49,7 +50,17 @@ pour qu'il teste, avant d'enchaîner.**
   `npm test`). Règle clé : « faux » n'est prononcé que s'il existe une preuve
   factuelle négative forte ; la seule manipulation rhétorique → au pire « douteux ».
 - Pipeline TEXTE `lib/pipeline.ts` : **2 temps** (mémoire → web), **≤ 3 appels
-  LLM**, timeouts (`lib/util.ts`), enrichissement mémoire.
+  LLM**, timeouts (`lib/util.ts`), enrichissement mémoire. Le cœur commun (web +
+  synthèse + scoring + enrichissement + mémoire) est factorisé dans
+  `lib/verifyShared.ts`, partagé avec le module Lien.
+- Pipeline LIEN `lib/pipelineLien.ts` : récupération de page `lib/fetchPage.ts`
+  (**timeout 5 s** AbortController, taille bornée, extraction regex sans dépendance :
+  titre/auteur/date/corps), signaux réputation (`domaine_suspect` via
+  `domaineImiteOfficiel`, `contenu_ancien_presente_actuel` si vieux + domaine non
+  fiable), **1 appel** `promptAnalyseLien` (affirmations + `ecart_titre_contenu`),
+  puis mémoire → web → scoring via `verifyShared`. **≤ 3 appels LLM.** La page
+  analysée est ajoutée comme 1re source. Échec de fetch → « insuffisant » propre.
+  Tests `lib/fetchPage.test.ts` (5). API : `POST /api/verify/link` (SSE, robuste).
 - Mémoire `lib/memory.ts` : interface `MemoryStore` + `InMemoryStore`
   (similarité Jaccard + racinisation à 7 car.). **Aucune écriture disque.**
 - Réputation `lib/reputation.ts` (+ `data/domaines.json`), normalisation numéro
@@ -59,6 +70,18 @@ pour qu'il teste, avant d'enchaîner.**
 - UI accueil : Hero carrousel, onglets (Texte actif ; Lien/Image/Numéro = « bientôt »),
   formulaire, progression SSE réelle, écran résultat (preuves → sources →
   affirmations → conseil).
+- Navigation : barre basse mobile-first 4 items (`BottomNav`) — Vérifier `/`,
+  Historique `/historique`, Rumeurs `/rumeurs`, À propos `/a-propos` — + menu
+  secondaire (`TopMenu`, coin haut droit) : Radar `/radar` (« bientôt »), Contester
+  `/contester`, Contact `/contact`. « Vérifier » toujours en un tap (jamais dans le
+  menu secondaire). Icônes SVG inline (`components/Icons.tsx`), aucune dépendance.
+- Pages : `/a-propos` (sections + citation « l'IA ne juge pas » en encart tornado),
+  `/rumeurs` (server component, lit `data/rumeurs.json` en lecture seule),
+  `/historique` (session client via `lib/history.ts` → sessionStorage, aucun compte,
+  rien envoyé au serveur), `/contester` (formulaire, confirmation client — pas encore
+  de file de modération persistée : FS lecture seule), `/contact`, `/radar`.
+- ⚠️ Le texte « À propos » emploie **« VoCit »** (fourni tel quel par l'utilisateur)
+  alors que le reste du produit dit **« VoiCit »**. Marque à harmoniser si voulu.
 
 ## 5. Contraintes Vercel déjà respectées (ne pas régresser)
 
@@ -106,43 +129,45 @@ npx tsc --noEmit               # typecheck
 npx next build                 # build prod
 ```
 
-## 9. PROCHAINE ÉTAPE — Module LIEN (étape 2)
+## 9. PROCHAINE ÉTAPE — Module NUMÉRO (étape 3)
 
-Plan prévu (à implémenter dans `lib/` + `app/api/verify/link/route.ts` + UI onglet) :
+Consultation de `data/numeros.json` (40 numéros signalés), **sans LLM** — c'est de
+la donnée locale déterministe.
 
-1. `lib/fetchPage.ts` : récupérer la page avec **timeout explicite 5 s**
-   (`AbortController`), extraire titre / date de publication / auteur / corps.
-   Si page inaccessible → « insuffisant » propre (pas de crash).
-2. Réputation via `lib/reputation.ts` (déjà là) : âge apparent du domaine, domaine
-   imitant un site officiel (`domaineImiteOfficiel`), absence d'auteur/date →
-   signaux `domaine_suspect`, etc.
-3. Extraction des affirmations (LLM) → **pipeline 2 temps** (réutiliser la logique
-   de `pipeline.ts` ; factoriser la partie commune mémoire→web→scoring).
-4. Écart titre/contenu (LLM, `promptEcartTitreContenu` existe déjà) → signal
-   `ecart_titre_contenu`.
-5. Contenu ancien présenté comme actuel (date de publication) → signal
-   `contenu_ancien_presente_actuel`.
-6. Scoring déterministe → rédaction → SSE, même format `VerifyResult`.
-7. Activer l'onglet « Lien » dans `app/page.tsx` (retirer `pret:false`, ajouter le
-   champ URL + l'appel SSE).
+1. `lib/phone.ts` normalise déjà un numéro vers `+2376XXXXXXXX` (prêt).
+2. Créer `lib/numeros.ts` : charger `data/numeros.json`, chercher le numéro
+   normalisé, renvoyer `NumeroSignale` (nbSignalements, motifPrincipal, dates).
+3. Scoring déterministe simple : nb de signalements distincts → niveau
+   (aucun appel LLM ; un `NumeroSignale` connu = signal négatif fort).
+4. API `POST /api/verify/phone` (peut être synchrone, pas besoin de SSE ni de LLM)
+   OU réutiliser le format SSE pour homogénéité de l'UI.
+5. Activer l'onglet « Numéro » dans `app/page.tsx` (champ tel + validation via
+   `lib/phone.ts`).
 
-Tous les `SignalCode` nécessaires existent déjà dans `lib/types.ts` et sont
-pondérés dans `lib/scoring.ts`.
+Rappel : le module Lien (étape 2) réutilise `lib/verifyShared.ts` — même schéma à
+suivre si le module Numéro doit faire une recherche web (a priori non).
 
 ## 10. Carte des fichiers
 
 ```
 app/
-  layout.tsx                header allégé + shell
-  page.tsx                  accueil : Hero + onglets + form + SSE + résultat
+  layout.tsx                header + TopMenu + shell + BottomNav
+  page.tsx                  accueil « Vérifier » : Hero + onglets + form + SSE + résultat
+  a-propos/ rumeurs/ historique/ radar/ contester/ contact/   pages de navigation
   components/               Hero, Logo, ProgressSteps, VerdictCard, ResultParts,
-                            RecentRumors, niveau.ts
+                            RecentRumors, niveau.ts, BottomNav, TopMenu, Icons,
+                            PageIntro
   api/verify/text/route.ts  pipeline TEXTE en SSE (robuste)
+  api/verify/link/route.ts  pipeline LIEN en SSE (robuste)
   api/rumors/route.ts       rumeurs récentes
 lib/
+  history.ts    historique de session (sessionStorage, client)
   llm/          interface + factory + gemini/claude/openai + prompts + json
   scoring.ts    ★ verdict déterministe (testé)  |  scoring.test.ts
-  pipeline.ts   orchestration 2 temps (TEXTE)
+  verifyShared.ts ★ cœur commun (web + synthèse + scoring + mémoire)
+  pipeline.ts   orchestration TEXTE (partie spécifique)
+  pipelineLien.ts orchestration LIEN (partie spécifique)
+  fetchPage.ts  récupération + extraction de page (testé : fetchPage.test.ts)
   memory.ts     MemoryStore + InMemoryStore (pas de disque)
   reputation.ts fiabilité domaines            phone.ts  normalisation numéros
   util.ts       withTimeout                   sse.ts    flux SSE

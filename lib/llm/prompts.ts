@@ -152,6 +152,30 @@ ${resultatsWeb}
 """`;
 }
 
+/**
+ * APPEL 1 du module LIEN (combiné) — extraction d'affirmations + écart
+ * titre/contenu en UN seul appel JSON. Comme pour le texte, le LLM ne juge
+ * jamais la véracité : il comprend et extrait, le scoring tranche.
+ */
+export function promptAnalyseLien(titre: string, corps: string): string {
+  return `Tu assistes une plateforme camerounaise de vérification. Voici le TITRE et le
+CORPS d'un article web. Fais DEUX choses, sans juger si c'est vrai ou faux, sans rien
+chercher sur le web :
+
+1. "affirmations" : liste les affirmations FACTUELLES vérifiables portées par l'article
+   (un fait précis, daté ou chiffrable). Pas d'opinions, questions ni appels à l'action.
+   Formule-les en français standard clair. Max 4.
+2. "ecart_titre_contenu" : le titre promet-il/affirme-t-il quelque chose que le corps ne
+   soutient pas (exagération, sensationnalisme, piège à clic) ? Donne {"ecart": true|false,
+   "explication": "phrase courte"}.
+
+Réponds STRICTEMENT en JSON :
+{"affirmations":["..."],"ecart_titre_contenu":{"ecart":false,"explication":"..."}}
+
+TITRE : """${titre}"""
+CORPS : """${corps.slice(0, 4000)}"""`;
+}
+
 /** Détecte un écart entre un titre (accrocheur) et le corps d'un article. Module Lien. */
 export function promptEcartTitreContenu(titre: string, corps: string): string {
   return `Compare ce TITRE et ce CORPS d'article. Y a-t-il un écart notable (le titre

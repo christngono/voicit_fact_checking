@@ -8,11 +8,21 @@ export interface EtapeUI {
   statut: "attente" | "en_cours" | "termine" | "ignore";
 }
 
-/** Ordre canonique des étapes affichées (reflète le pipeline réel). */
+/** Ordre canonique des étapes affichées (module TEXTE, reflète le pipeline réel). */
 export const ETAPES_INIT: EtapeUI[] = [
   { id: "reception", label: "Réception du contenu", statut: "attente" },
   { id: "extraction", label: "Lecture et traduction", statut: "attente" },
   { id: "affirmations", label: "Identification des affirmations", statut: "attente" },
+  { id: "corpus", label: "Recherche dans le corpus VoiCit", statut: "attente" },
+  { id: "web", label: "Recherche de sources sur le web", statut: "attente" },
+  { id: "score", label: "Calcul du score", statut: "attente" },
+];
+
+/** Étapes du module LIEN : la récupération de la page remplace la traduction. */
+export const ETAPES_INIT_LIEN: EtapeUI[] = [
+  { id: "reception", label: "Réception du lien", statut: "attente" },
+  { id: "page", label: "Récupération de la page", statut: "attente" },
+  { id: "extraction", label: "Lecture du contenu", statut: "attente" },
   { id: "corpus", label: "Recherche dans le corpus VoiCit", statut: "attente" },
   { id: "web", label: "Recherche de sources sur le web", statut: "attente" },
   { id: "score", label: "Calcul du score", statut: "attente" },

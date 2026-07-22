@@ -132,6 +132,7 @@ export interface DomainesConfig {
 
 export type EtapeId =
   | "reception"
+  | "page" // module LIEN : récupération de la page distante
   | "extraction"
   | "affirmations"
   | "corpus"
