@@ -32,10 +32,12 @@ Corollaires :
 |-------|---------|------|
 | **1** | Couche LLM interchangeable + module **TEXTE** de bout en bout | ✅ **FAIT** |
 | **2** | Module **LIEN** (fetch page, réputation domaine, écart titre/contenu) | ✅ **FAIT** |
-| 3 | Module **NUMÉRO** (consultation `data/numeros.json`, sans LLM) | ⬜ à faire |
-| 4 | Module **IMAGE** (`analyzeImage`, OCR + affirmation implicite) | ⬜ à faire |
+| **3** | Module **IMAGE** (`analyzeImage`, OCR + type visuel + affirmations) | ✅ **FAIT** |
+| 4 | Module **NUMÉRO** (consultation `data/numeros.json`, sans LLM) | ⬜ à faire |
+| — | Module **VIDÉO** | ⬜ onglet « bientôt » seulement (pas de pipeline) |
 | — | Hero carrousel + header allégé (UI accueil) | ✅ FAIT (hors plan initial, demandé en cours) |
 | — | Navigation (barre basse 4 items + menu secondaire) + pages dédiées | ✅ FAIT (hors plan, demandé en cours) |
+| — | Splash screen animé (logo) + message d'aide « comment utiliser » | ✅ FAIT (hors plan, demandé en cours) |
 
 **Méthode de travail convenue avec l'utilisateur : s'arrêter après chaque étape
 pour qu'il teste, avant d'enchaîner.**
@@ -61,6 +63,16 @@ pour qu'il teste, avant d'enchaîner.**
   puis mémoire → web → scoring via `verifyShared`. **≤ 3 appels LLM.** La page
   analysée est ajoutée comme 1re source. Échec de fetch → « insuffisant » propre.
   Tests `lib/fetchPage.test.ts` (5). API : `POST /api/verify/link` (SSE, robuste).
+- Pipeline IMAGE `lib/pipelineImage.ts` : **1 appel vision** (`promptAnalyseImage`
+  renvoie JSON : `texte_incruste` OCR + `description` + `type_visuel` +
+  `affirmations`), signal `indice_ia` (poids FAIBLE) si montage/`genere_ia`, puis
+  mémoire → web → scoring via `verifyShared`. **≤ 3 appels LLM.** API : `POST
+  /api/verify/image` (SSE) — accepte data URL, sépare le préfixe, borne la taille
+  (~4,5 Mo), image illisible/lourde → « insuffisant » propre. Onglet « Image »
+  actif (upload + aperçu). Étapes UI : `ETAPES_INIT_IMAGE`.
+- Onglet **Vidéo** ajouté avec badge « bientôt » (aucun pipeline). Grille d'onglets
+  passée à 5 colonnes (Texte, Lien, Image, Vidéo, Numéro).
+- Message d'aide « Comment ça marche » sur l'accueil (au-dessus des onglets).
 - Mémoire `lib/memory.ts` : interface `MemoryStore` + `InMemoryStore`
   (similarité Jaccard + racinisation à 7 car.). **Aucune écriture disque.**
 - Réputation `lib/reputation.ts` (+ `data/domaines.json`), normalisation numéro
@@ -129,7 +141,7 @@ npx tsc --noEmit               # typecheck
 npx next build                 # build prod
 ```
 
-## 9. PROCHAINE ÉTAPE — Module NUMÉRO (étape 3)
+## 9. PROCHAINE ÉTAPE — Module NUMÉRO (étape 4)
 
 Consultation de `data/numeros.json` (40 numéros signalés), **sans LLM** — c'est de
 la donnée locale déterministe.
@@ -159,6 +171,7 @@ app/
                             PageIntro
   api/verify/text/route.ts  pipeline TEXTE en SSE (robuste)
   api/verify/link/route.ts  pipeline LIEN en SSE (robuste)
+  api/verify/image/route.ts pipeline IMAGE en SSE (robuste)
   api/rumors/route.ts       rumeurs récentes
 lib/
   history.ts    historique de session (sessionStorage, client)
@@ -167,6 +180,7 @@ lib/
   verifyShared.ts ★ cœur commun (web + synthèse + scoring + mémoire)
   pipeline.ts   orchestration TEXTE (partie spécifique)
   pipelineLien.ts orchestration LIEN (partie spécifique)
+  pipelineImage.ts orchestration IMAGE (vision + OCR, partie spécifique)
   fetchPage.ts  récupération + extraction de page (testé : fetchPage.test.ts)
   memory.ts     MemoryStore + InMemoryStore (pas de disque)
   reputation.ts fiabilité domaines            phone.ts  normalisation numéros

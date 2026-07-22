@@ -28,6 +28,16 @@ export const ETAPES_INIT_LIEN: EtapeUI[] = [
   { id: "score", label: "Calcul du score", statut: "attente" },
 ];
 
+/** Étapes du module IMAGE : OCR + affirmation véhiculée remplacent la traduction. */
+export const ETAPES_INIT_IMAGE: EtapeUI[] = [
+  { id: "reception", label: "Réception de l'image", statut: "attente" },
+  { id: "extraction", label: "Lecture de l'image (OCR)", statut: "attente" },
+  { id: "affirmations", label: "Affirmation véhiculée", statut: "attente" },
+  { id: "corpus", label: "Recherche dans le corpus VoiCit", statut: "attente" },
+  { id: "web", label: "Recherche de sources sur le web", statut: "attente" },
+  { id: "score", label: "Calcul du score", statut: "attente" },
+];
+
 export function ProgressSteps({ etapes }: { etapes: EtapeUI[] }) {
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-card">

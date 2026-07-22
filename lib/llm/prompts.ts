@@ -187,15 +187,27 @@ TITRE : """${titre}"""
 CORPS : """${corps.slice(0, 4000)}"""`;
 }
 
-/** Décrit une image + lit le texte incrusté (OCR). Ne juge pas la véracité. */
+/**
+ * APPEL 1 du module IMAGE (vision, combiné) — OCR + description + type visuel +
+ * affirmations en UN seul appel. Le LLM ne juge JAMAIS la véracité : il lit,
+ * décrit et extrait ; le verdict est calculé ensuite par lib/scoring.ts.
+ */
 export function promptAnalyseImage(): string {
-  return `Décris factuellement cette image et RETRANSCRIS tout texte incrusté (OCR),
-mot pour mot. Ne juge pas si le contenu est vrai ou faux. Indique s'il s'agit
-visiblement d'une capture d'écran, d'un montage ou d'une photo.
+  return `Tu assistes une plateforme camerounaise de vérification. Analyse cette image
+SANS juger si son contenu est vrai ou faux, sans rien chercher sur le web.
 
-Format :
-TEXTE INCRUSTÉ : ...
-DESCRIPTION : ...`;
+Fais QUATRE choses :
+1. "texte_incruste" : retranscris mot pour mot tout texte visible dans l'image (OCR).
+   Chaîne vide s'il n'y a aucun texte.
+2. "description" : décris factuellement ce que montre l'image (1 à 2 phrases).
+3. "type_visuel" : un seul mot parmi "capture" (capture d'écran), "photo", "montage"
+   (retouche/assemblage visible), "genere_ia" (visiblement généré par IA) ou "inconnu".
+4. "affirmations" : liste les affirmations FACTUELLES vérifiables véhiculées par l'image
+   (par son texte, ou ce qu'elle veut faire croire). Un fait précis, daté ou chiffrable,
+   en français clair. Pas d'opinions ni de généralités. Max 4.
+
+Réponds STRICTEMENT en JSON :
+{"texte_incruste":"...","description":"...","type_visuel":"...","affirmations":["..."]}`;
 }
 
 /** Formule l'affirmation implicite véhiculée par une image (à partir de sa description). */
