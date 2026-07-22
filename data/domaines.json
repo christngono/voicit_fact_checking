@@ -1,0 +1,44 @@
+{
+  "_commentaire": "Réputation des domaines, utilisée par le code (lib/reputation.ts) — jamais par le LLM. 'officiels' = sites gouvernementaux camerounais imités par des fraudeurs.",
+  "fiables": [
+    "cameroon-tribune.cm",
+    "crtv.cm",
+    "journalducameroun.com",
+    "actucameroun.com",
+    "camerweb.com",
+    "237actu.com",
+    "africacheck.org",
+    "afp.com",
+    "reuters.com",
+    "bbc.com",
+    "rfi.fr",
+    "france24.com",
+    "jeuneafrique.com",
+    "who.int",
+    "afrik.com"
+  ],
+  "officiels": [
+    "spm.gov.cm",
+    "prc.cm",
+    "minsante.cm",
+    "minedub.gov.cm",
+    "minesec.gov.cm",
+    "minfi.gov.cm",
+    "elecam.cm",
+    "beac.int",
+    "eneo.cm",
+    "camwater.cm"
+  ],
+  "frauduleux": [
+    "prc-cameroun-officiel.com",
+    "minsante-gov.net",
+    "eneo-remboursement.info",
+    "mtn-momo-bonus.com",
+    "orange-money-cadeau.net",
+    "recrutement-fonction-publique.info",
+    "elecam-resultats.org",
+    "cameroon-tribune.info",
+    "crtv-news24.com",
+    "bourse-etudiant-cm.com"
+  ]
+}

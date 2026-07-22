@@ -1,0 +1,22 @@
+# dépendances
+/node_modules
+
+# next
+/.next
+/out
+
+# production
+/build
+
+# env — AUCUNE clé API ne doit être commitée
+.env
+.env.local
+.env*.local
+
+# divers
+.DS_Store
+*.pem
+npm-debug.log*
+.vercel
+*.tsbuildinfo
+next-env.d.ts

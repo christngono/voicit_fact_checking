@@ -1,0 +1,338 @@
+[
+  {
+    "id": "rum-001",
+    "texte": "MTN Cameroun offre 50 000 FCFA de crédit gratuit à tous les abonnés pour son anniversaire. Envoyez ce message à 10 contacts et composez *126# pour recevoir votre bonus.",
+    "motsCles": ["mtn", "50000", "credit gratuit", "bonus", "anniversaire", "*126#", "partager"],
+    "verdict": "faux",
+    "explication": "Aucune communication officielle de MTN Cameroun n'annonce ce bonus. Le schéma « partagez à 10 contacts + composez un code » est une chaîne virale classique visant à propager le message et parfois à souscrire des services payants.",
+    "sources": [
+      { "titre": "MTN Cameroon — Communiqués officiels", "url": "https://www.mtn.cm/", "date": "2024-11-02", "fiabilite": "fiable" },
+      { "titre": "Attention aux fausses promotions de crédit — Journal du Cameroun", "url": "https://www.journalducameroun.com/", "date": "2024-11-05", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-11-06"
+  },
+  {
+    "id": "rum-002",
+    "texte": "Le gouvernement va distribuer 100 000 FCFA à chaque jeune de moins de 30 ans via Mobile Money. Inscrivez-vous vite sur recrutement-fonction-publique.info avant la fin des places.",
+    "motsCles": ["gouvernement", "100000", "jeune", "mobile money", "inscription", "aide"],
+    "verdict": "faux",
+    "explication": "Aucun programme gouvernemental de ce type n'existe. Le site cité imite un service public mais n'est pas officiel : il collecte des données personnelles. Les vrais dispositifs passent par des canaux officiels (.gov.cm).",
+    "sources": [
+      { "titre": "Services publics camerounais — portail officiel", "url": "https://www.spm.gov.cm/", "date": "2025-01-10", "fiabilite": "officiel" },
+      { "titre": "Arnaque aux fausses aides de l'État — ActuCameroun", "url": "https://actucameroun.com/", "date": "2025-01-12", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2025-01-14"
+  },
+  {
+    "id": "rum-003",
+    "texte": "ENEO va rembourser 25 000 FCFA à tous les clients à cause des coupures. Cliquez sur eneo-remboursement.info et entrez votre numéro Mobile Money pour recevoir l'argent.",
+    "motsCles": ["eneo", "remboursement", "25000", "coupure", "mobile money", "electricite"],
+    "verdict": "faux",
+    "explication": "ENEO ne rembourse jamais via un formulaire demandant un numéro Mobile Money. Le domaine cité imite ENEO. Fournir son numéro expose à une escroquerie par transfert inversé.",
+    "sources": [
+      { "titre": "ENEO Cameroun — site officiel", "url": "https://eneo.cm/", "date": "2025-02-01", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-02-03"
+  },
+  {
+    "id": "rum-004",
+    "texte": "Le prix du litre d'essence passe à 1 000 FCFA dès demain sur tout le territoire national.",
+    "motsCles": ["essence", "carburant", "prix", "1000", "litre", "augmentation"],
+    "verdict": "douteux",
+    "explication": "Les prix des carburants sont fixés par arrêté et annoncés officiellement. À la date de vérification, aucun arrêté ne confirmait ce montant. En l'absence de source officielle, l'information reste non confirmée.",
+    "sources": [
+      { "titre": "Ministère des Finances — communiqués", "url": "https://www.minfi.gov.cm/", "date": "2025-03-15", "fiabilite": "officiel" },
+      { "titre": "Carburants : ce que dit la réglementation — Cameroon Tribune", "url": "https://www.cameroon-tribune.cm/", "date": "2025-03-16", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2025-03-17"
+  },
+  {
+    "id": "rum-005",
+    "texte": "Alerte : de l'eau du robinet contaminée à Douala provoque des maladies. Ne buvez pas l'eau de CAMWATER jusqu'à nouvel ordre.",
+    "motsCles": ["eau", "douala", "camwater", "contamination", "maladie", "alerte"],
+    "verdict": "douteux",
+    "explication": "Aucune alerte sanitaire officielle du Minsanté ni de CAMWATER ne confirmait une contamination généralisée à la date de vérification. Ce type d'alerte anonyme circule régulièrement sans preuve.",
+    "sources": [
+      { "titre": "Ministère de la Santé publique", "url": "https://www.minsante.cm/", "date": "2025-04-02", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-04-03"
+  },
+  {
+    "id": "rum-006",
+    "texte": "Un séisme de magnitude 7 va frapper l'Ouest Cameroun cette semaine, selon des scientifiques. Évacuez Bafoussam.",
+    "motsCles": ["seisme", "tremblement", "ouest", "bafoussam", "magnitude", "evacuation"],
+    "verdict": "faux",
+    "explication": "La prévision d'un séisme à date et lieu précis est scientifiquement impossible. Aucun organisme géophysique ne peut annoncer un séisme « cette semaine ». Message alarmiste sans source identifiable.",
+    "sources": [
+      { "titre": "Peut-on prédire les séismes ? — Africa Check", "url": "https://africacheck.org/", "date": "2024-09-20", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-09-22"
+  },
+  {
+    "id": "rum-007",
+    "texte": "Les écoles publiques seront fermées tout le mois prochain à cause d'une nouvelle épidémie. Gardez vos enfants à la maison.",
+    "motsCles": ["ecole", "fermeture", "epidemie", "eleves", "minedub", "enfants"],
+    "verdict": "faux",
+    "explication": "Toute fermeture nationale des écoles fait l'objet d'un communiqué du MINEDUB/MINESEC. Aucun communiqué de ce type n'existait. L'information contredit le calendrier scolaire officiel en vigueur.",
+    "sources": [
+      { "titre": "Ministère de l'Éducation de Base", "url": "https://www.minedub.gov.cm/", "date": "2025-01-20", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-01-21"
+  },
+  {
+    "id": "rum-008",
+    "texte": "Orange Money supprime les frais de retrait à vie pour les 1 000 premiers qui partagent ce message dans 5 groupes WhatsApp.",
+    "motsCles": ["orange money", "frais", "retrait", "gratuit", "whatsapp", "partager"],
+    "verdict": "faux",
+    "explication": "Les grilles tarifaires de Mobile Money sont publiques et ne se modifient pas via un partage WhatsApp. Schéma viral typique conçu pour se propager.",
+    "sources": [
+      { "titre": "Orange Cameroun — tarifs officiels", "url": "https://www.orange.cm/", "date": "2024-12-01", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-12-04"
+  },
+  {
+    "id": "rum-009",
+    "texte": "La BEAC va retirer les anciens billets de 10 000 FCFA de la circulation dès lundi. Échangez-les vite ou ils perdront toute valeur.",
+    "motsCles": ["beac", "billet", "10000", "fcfa", "retrait", "monnaie", "echange"],
+    "verdict": "douteux",
+    "explication": "Tout retrait de billets par la BEAC fait l'objet d'un communiqué officiel avec période d'échange prolongée. À la date de vérification, aucun communiqué n'annonçait ce retrait imminent.",
+    "sources": [
+      { "titre": "Banque des États de l'Afrique Centrale (BEAC)", "url": "https://www.beac.int/", "date": "2025-05-05", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-05-06"
+  },
+  {
+    "id": "rum-010",
+    "texte": "Boire de l'eau chaude avec du citron le matin guérit définitivement le paludisme sans médicament.",
+    "motsCles": ["paludisme", "citron", "eau chaude", "remede", "guerir", "sante"],
+    "verdict": "faux",
+    "explication": "Aucune preuve scientifique n'appuie ce remède. Le paludisme se traite avec des antipaludiques recommandés par l'OMS. Renoncer au traitement médical met la vie en danger.",
+    "sources": [
+      { "titre": "OMS — Paludisme", "url": "https://www.who.int/fr/news-room/fact-sheets/detail/malaria", "date": "2024-04-25", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-06-10"
+  },
+  {
+    "id": "rum-011",
+    "texte": "Recrutement massif de 10 000 fonctionnaires sans concours. Payez 15 000 FCFA de frais de dossier par Mobile Money pour réserver votre place.",
+    "motsCles": ["recrutement", "fonctionnaire", "sans concours", "frais", "15000", "dossier", "emploi"],
+    "verdict": "faux",
+    "explication": "Les recrutements dans la fonction publique passent par des concours annoncés officiellement et ne demandent jamais de « frais de réservation » par Mobile Money. Demande d'argent = signal d'escroquerie.",
+    "sources": [
+      { "titre": "Services du Premier Ministre — concours officiels", "url": "https://www.spm.gov.cm/", "date": "2025-02-18", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-02-19"
+  },
+  {
+    "id": "rum-012",
+    "texte": "Un nouveau virus mortel plus dangereux qu'Ebola se propage à Yaoundé. Le gouvernement cache la vérité.",
+    "motsCles": ["virus", "ebola", "yaounde", "epidemie", "mortel", "gouvernement cache"],
+    "verdict": "douteux",
+    "explication": "Aucune déclaration d'épidémie n'émanait du Minsanté ni de l'OMS à la date de vérification. L'argument « le gouvernement cache » est un marqueur classique de désinformation qui ne constitue pas une preuve.",
+    "sources": [
+      { "titre": "Ministère de la Santé publique — bulletins", "url": "https://www.minsante.cm/", "date": "2025-03-01", "fiabilite": "officiel" },
+      { "titre": "OMS Afrique — situations d'urgence", "url": "https://www.afro.who.int/", "date": "2025-03-02", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2025-03-03"
+  },
+  {
+    "id": "rum-013",
+    "texte": "Le péage de l'axe Yaoundé-Douala devient gratuit pour toujours à partir du 1er du mois.",
+    "motsCles": ["peage", "yaounde", "douala", "gratuit", "route", "autoroute"],
+    "verdict": "douteux",
+    "explication": "Aucune décision officielle du ministère des Travaux publics n'annonçait la gratuité des péages. Information non confirmée par une source officielle.",
+    "sources": [
+      { "titre": "Cameroon Tribune — infrastructures", "url": "https://www.cameroon-tribune.cm/", "date": "2025-04-20", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2025-04-21"
+  },
+  {
+    "id": "rum-014",
+    "texte": "La CAN 2025 est annulée et le Cameroun perd l'organisation à cause d'un scandale.",
+    "motsCles": ["can", "2025", "annulee", "cameroun", "football", "caf", "organisation"],
+    "verdict": "faux",
+    "explication": "Aucune annonce de la CAF ou de la FECAFOOT ne confirmait cette annulation. L'information contredit le calendrier officiel des compétitions publié par la CAF.",
+    "sources": [
+      { "titre": "Confédération Africaine de Football (CAF)", "url": "https://www.cafonline.com/", "date": "2024-10-15", "fiabilite": "fiable" },
+      { "titre": "Journal du Cameroun — sport", "url": "https://www.journalducameroun.com/", "date": "2024-10-16", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-10-17"
+  },
+  {
+    "id": "rum-015",
+    "texte": "Cette photo montre un immeuble effondré à Douala hier suite aux pluies.",
+    "motsCles": ["immeuble", "effondrement", "douala", "pluie", "photo", "batiment"],
+    "verdict": "faux",
+    "explication": "La photo circule en réalité depuis plusieurs années et provient d'un autre pays. Il s'agit d'un contenu ancien présenté comme un événement récent (décontextualisation).",
+    "sources": [
+      { "titre": "Recherche d'image inversée — vérification de contexte", "url": "https://africacheck.org/", "date": "2024-07-11", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-07-12"
+  },
+  {
+    "id": "rum-016",
+    "texte": "Le président a démissionné cette nuit, l'annonce officielle est imminente.",
+    "motsCles": ["president", "demission", "annonce", "gouvernement", "pouvoir"],
+    "verdict": "faux",
+    "explication": "Aucun communiqué de la Présidence de la République ni des grands médias nationaux et internationaux ne rapportait un tel événement. Un événement de cette ampleur serait couvert massivement ; l'absence totale de couverture est révélatrice.",
+    "sources": [
+      { "titre": "Présidence de la République du Cameroun", "url": "https://www.prc.cm/", "date": "2025-05-30", "fiabilite": "officiel" },
+      { "titre": "AFP — fil Cameroun", "url": "https://www.afp.com/", "date": "2025-05-30", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2025-05-31"
+  },
+  {
+    "id": "rum-017",
+    "texte": "WhatsApp deviendra payant le mois prochain : 2 000 FCFA par mois sauf si vous transférez ce message à 20 personnes.",
+    "motsCles": ["whatsapp", "payant", "2000", "transferer", "message", "abonnement"],
+    "verdict": "faux",
+    "explication": "WhatsApp reste gratuit pour les utilisateurs et n'a jamais conditionné la gratuité à un transfert de message. Chaîne virale récurrente depuis des années.",
+    "sources": [
+      { "titre": "WhatsApp — Centre d'aide", "url": "https://faq.whatsapp.com/", "date": "2024-08-01", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-08-02"
+  },
+  {
+    "id": "rum-018",
+    "texte": "Manger de l'ail chaque matin protège à 100 % contre le COVID-19, plus besoin de vaccin.",
+    "motsCles": ["ail", "covid", "coronavirus", "vaccin", "protection", "remede"],
+    "verdict": "faux",
+    "explication": "Aucune preuve que l'ail protège du COVID-19. L'OMS a explicitement démenti ce type d'allégation. Substituer un aliment à la prévention médicale est dangereux.",
+    "sources": [
+      { "titre": "OMS — Démêler le vrai du faux (COVID-19)", "url": "https://www.who.int/fr/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters", "date": "2023-12-05", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-01-15"
+  },
+  {
+    "id": "rum-019",
+    "texte": "Une banque distribue des microcrédits de 500 000 FCFA sans garantie ni intérêt à tous les jeunes de Bamenda.",
+    "motsCles": ["banque", "microcredit", "500000", "sans garantie", "bamenda", "jeune", "pret"],
+    "verdict": "douteux",
+    "explication": "Aucun établissement financier agréé n'a communiqué sur une telle offre. Les crédits « sans garantie ni intérêt » à grande échelle sont un motif fréquent d'escroquerie. Information non confirmée.",
+    "sources": [
+      { "titre": "COBAC — établissements agréés", "url": "https://www.beac.int/", "date": "2025-02-10", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-02-11"
+  },
+  {
+    "id": "rum-020",
+    "texte": "La ville de Kribi sera privée d'électricité pendant 30 jours consécutifs à partir de vendredi.",
+    "motsCles": ["kribi", "electricite", "coupure", "30 jours", "eneo", "delestage"],
+    "verdict": "douteux",
+    "explication": "ENEO annonce ses coupures programmées par communiqué localisé et limité dans le temps. Une coupure de 30 jours consécutifs n'était confirmée par aucune source officielle.",
+    "sources": [
+      { "titre": "ENEO Cameroun — informations clients", "url": "https://eneo.cm/", "date": "2025-06-01", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-06-02"
+  },
+  {
+    "id": "rum-021",
+    "texte": "Les billets de banque transmettent une maladie mortelle, arrêtez d'utiliser l'argent liquide immédiatement.",
+    "motsCles": ["billet", "argent", "maladie", "liquide", "contamination", "sante"],
+    "verdict": "faux",
+    "explication": "Aucune autorité sanitaire n'a émis d'alerte de ce type. Message anxiogène sans source. L'hygiène des mains suffit largement selon les recommandations sanitaires courantes.",
+    "sources": [
+      { "titre": "OMS — hygiène et prévention", "url": "https://www.who.int/", "date": "2024-05-18", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-05-20"
+  },
+  {
+    "id": "rum-022",
+    "texte": "Le concours d'entrée à l'ENAM est reporté à cause d'une fuite des sujets, tous les candidats doivent se réinscrire.",
+    "motsCles": ["enam", "concours", "report", "fuite", "sujet", "reinscription", "candidat"],
+    "verdict": "douteux",
+    "explication": "Tout report de concours officiel est annoncé par communiqué de l'institution concernée. Aucun communiqué de ce type n'était disponible. Information non confirmée à la date de vérification.",
+    "sources": [
+      { "titre": "Services du Premier Ministre — concours", "url": "https://www.spm.gov.cm/", "date": "2025-03-25", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-03-26"
+  },
+  {
+    "id": "rum-023",
+    "texte": "Un homme est mort après avoir reçu un appel du numéro +237 6XX qui fait exploser le cerveau. Ne décrochez jamais ce numéro.",
+    "motsCles": ["appel", "numero", "mort", "explosion", "cerveau", "telephone", "danger"],
+    "verdict": "faux",
+    "explication": "Un appel téléphonique ne peut causer aucun dommage physique. Légende urbaine mondiale recyclée avec un indicatif local. Aucune source crédible n'existe.",
+    "sources": [
+      { "titre": "Africa Check — légendes du « numéro tueur »", "url": "https://africacheck.org/", "date": "2023-11-30", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-02-08"
+  },
+  {
+    "id": "rum-024",
+    "texte": "La subvention du sac de riz à 5 000 FCFA est disponible dans tous les marchés de Garoua cette semaine.",
+    "motsCles": ["riz", "subvention", "5000", "garoua", "marche", "prix", "alimentation"],
+    "verdict": "douteux",
+    "explication": "Aucun programme officiel de subvention du riz à ce prix n'était confirmé par le ministère du Commerce à la date de vérification. Information invérifiable en l'état.",
+    "sources": [
+      { "titre": "Cameroon Tribune — économie", "url": "https://www.cameroon-tribune.cm/", "date": "2025-04-28", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2025-04-29"
+  },
+  {
+    "id": "rum-025",
+    "texte": "Cette vidéo prouve que des soldats étrangers ont envahi l'Extrême-Nord hier.",
+    "motsCles": ["video", "soldat", "etranger", "invasion", "extreme-nord", "armee"],
+    "verdict": "faux",
+    "explication": "La vidéo provient d'un autre pays et d'une autre année, comme l'établit la vérification de sa source d'origine. Contenu ancien décontextualisé et faussement daté.",
+    "sources": [
+      { "titre": "AFP Factuel — vérification de vidéos", "url": "https://factuel.afp.com/", "date": "2024-09-05", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-09-06"
+  },
+  {
+    "id": "rum-026",
+    "texte": "Bonne nouvelle confirmée : le gouvernement annule toutes les dettes de crédit Mobile Money des Camerounais.",
+    "motsCles": ["gouvernement", "dette", "credit", "mobile money", "annulation", "annonce"],
+    "verdict": "faux",
+    "explication": "Aucun communiqué officiel n'annonce une annulation des dettes Mobile Money. L'affirmation « confirmée » sans source citée est un marqueur classique de fausse nouvelle.",
+    "sources": [
+      { "titre": "Ministère des Finances — communiqués", "url": "https://www.minfi.gov.cm/", "date": "2025-05-15", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-05-16"
+  },
+  {
+    "id": "rum-027",
+    "texte": "Alerte enlèvement d'enfants dans une camionnette blanche à Bafoussam, partagez au maximum pour sauver des vies.",
+    "motsCles": ["enlevement", "enfant", "camionnette", "bafoussam", "alerte", "partager"],
+    "verdict": "douteux",
+    "explication": "Ce type d'alerte anonyme, sans date ni source vérifiable et avec injonction de partage massif, circule à l'identique dans de nombreuses villes. Aucune confirmation des autorités locales à la date de vérification.",
+    "sources": [
+      { "titre": "Africa Check — fausses alertes d'enlèvement", "url": "https://africacheck.org/", "date": "2024-06-14", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2024-06-15"
+  },
+  {
+    "id": "rum-028",
+    "texte": "Les résultats du BEPC sont déjà disponibles sur elecam-resultats.org, entrez votre numéro de table.",
+    "motsCles": ["bepc", "resultats", "examen", "elecam", "numero table", "eleve"],
+    "verdict": "faux",
+    "explication": "Les résultats d'examens officiels sont publiés par l'Office du Baccalauréat / les jurys, pas par un site imitant ELECAM (qui organise les élections, pas les examens). Domaine trompeur collectant des données.",
+    "sources": [
+      { "titre": "Ministère des Enseignements Secondaires", "url": "https://www.minesec.gov.cm/", "date": "2025-07-01", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-07-02"
+  },
+  {
+    "id": "rum-029",
+    "texte": "Une bourse d'études de 2 000 000 FCFA pour étudier au Canada est offerte à tous, inscrivez-vous sur bourse-etudiant-cm.com.",
+    "motsCles": ["bourse", "etudes", "canada", "2000000", "etudiant", "inscription", "visa"],
+    "verdict": "faux",
+    "explication": "Les bourses officielles passent par des institutions identifiées et ne garantissent jamais un montant « à tous ». Le site cité imite un service d'orientation et collecte des données/frais. Signal d'escroquerie.",
+    "sources": [
+      { "titre": "Campus France / ambassades — bourses officielles", "url": "https://www.campusfrance.org/fr", "date": "2025-01-30", "fiabilite": "fiable" }
+    ],
+    "dateVerification": "2025-01-31"
+  },
+  {
+    "id": "rum-030",
+    "texte": "Le réseau MTN/Orange sera coupé pendant 3 jours pour maintenance nationale, faites vos réserves d'appels.",
+    "motsCles": ["reseau", "mtn", "orange", "coupure", "maintenance", "3 jours", "telephone"],
+    "verdict": "douteux",
+    "explication": "Les opérateurs communiquent les maintenances de manière localisée et brève. Une coupure nationale de 3 jours n'était annoncée par aucun opérateur ni par l'ART. Information non confirmée.",
+    "sources": [
+      { "titre": "Agence de Régulation des Télécommunications (ART)", "url": "https://www.art.cm/", "date": "2025-06-20", "fiabilite": "officiel" }
+    ],
+    "dateVerification": "2025-06-21"
+  }
+]

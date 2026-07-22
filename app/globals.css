@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #0e7a3b;
+  --ink: #111827;
+}
+
+html,
+body {
+  color: var(--ink);
+  background: #f7f8fa;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Réserve verticale pour l'encoche mobile */
+body {
+  min-height: 100dvh;
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.animate-pulse-soft {
+  animation: pulse-soft 1.2s ease-in-out infinite;
+}
