@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { StreamEvent, VerifyResult } from "@/lib/types";
+import { Hero } from "./components/Hero";
 import { ProgressSteps, ETAPES_INIT, type EtapeUI } from "./components/ProgressSteps";
 import { VerdictCard } from "./components/VerdictCard";
 import { EvidenceList, SourceList, ClaimList, AdviceBox } from "./components/ResultParts";
@@ -97,8 +98,13 @@ export default function Accueil() {
     setErreur("");
   }
 
+  const surAccueil = etat === "idle" || etat === "erreur";
+
   return (
     <div>
+      {/* Hero narratif — sur l'accueil uniquement, pour rester focalisé pendant l'analyse */}
+      {surAccueil && <Hero />}
+
       {/* Onglets */}
       <div className="mb-4 grid grid-cols-4 gap-1 rounded-xl bg-gray-100 p-1">
         {ONGLETS.map((o) => (

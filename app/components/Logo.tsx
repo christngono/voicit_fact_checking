@@ -35,10 +35,10 @@ export function TornadoMark({ size = 34 }: { size?: number }) {
 
 export function Wordmark() {
   return (
-    <div className="flex items-center gap-2.5">
-      <TornadoMark size={32} />
+    <div className="flex items-center gap-2">
+      <TornadoMark size={28} />
       <div className="leading-none">
-        <span className="text-xl font-extrabold tracking-tight text-ink">
+        <span className="text-lg font-extrabold tracking-tight text-ink">
           Voi<span className="text-brand-500">Cit</span>
         </span>
       </div>

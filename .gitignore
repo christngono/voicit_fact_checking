@@ -20,3 +20,6 @@ npm-debug.log*
 .vercel
 *.tsbuildinfo
 next-env.d.ts
+
+# images sources lourdes (versions optimisées dans public/hero/)
+/deinfos*.png
