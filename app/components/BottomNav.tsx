@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconVerifier, IconHistorique, IconRumeurs, IconInfo } from "./Icons";
+import { useT } from "./LocaleProvider";
 
 type Item = {
   href: string;
-  label: string;
+  key: "verifier" | "historique" | "rumeurs" | "apropos";
   Icon: (p: { className?: string }) => JSX.Element;
 };
 
@@ -16,14 +17,15 @@ type Item = {
  * jamais caché derrière le menu secondaire.
  */
 const ITEMS: Item[] = [
-  { href: "/", label: "Vérifier", Icon: IconVerifier },
-  { href: "/historique", label: "Historique", Icon: IconHistorique },
-  { href: "/rumeurs", label: "Rumeurs", Icon: IconRumeurs },
-  { href: "/a-propos", label: "À propos", Icon: IconInfo },
+  { href: "/", key: "verifier", Icon: IconVerifier },
+  { href: "/historique", key: "historique", Icon: IconHistorique },
+  { href: "/rumeurs", key: "rumeurs", Icon: IconRumeurs },
+  { href: "/a-propos", key: "apropos", Icon: IconInfo },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
+  const d = useT();
 
   return (
     <nav
@@ -31,7 +33,7 @@ export function BottomNav() {
       className="fixed inset-x-0 bottom-0 z-30 border-t border-black/5 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur"
     >
       <ul className="mx-auto grid max-w-2xl grid-cols-4">
-        {ITEMS.map(({ href, label, Icon }) => {
+        {ITEMS.map(({ href, key, Icon }) => {
           const actif = href === "/" ? pathname === "/" : pathname.startsWith(href);
           return (
             <li key={href}>
@@ -44,7 +46,7 @@ export function BottomNav() {
                 }
               >
                 <Icon className="h-[22px] w-[22px]" />
-                <span>{label}</span>
+                <span>{d.nav[key]}</span>
               </Link>
             </li>
           );

@@ -1,6 +1,7 @@
 "use client";
 
 import type { EtapeId } from "@/lib/types";
+import { useT } from "./LocaleProvider";
 
 export interface EtapeUI {
   id: EtapeId;
@@ -8,40 +9,36 @@ export interface EtapeUI {
   statut: "attente" | "en_cours" | "termine" | "ignore";
 }
 
-/** Ordre canonique des étapes affichées (module TEXTE, reflète le pipeline réel). */
-export const ETAPES_INIT: EtapeUI[] = [
-  { id: "reception", label: "Réception du contenu", statut: "attente" },
-  { id: "extraction", label: "Lecture et traduction", statut: "attente" },
-  { id: "affirmations", label: "Identification des affirmations", statut: "attente" },
-  { id: "corpus", label: "Recherche dans le corpus VoiCit", statut: "attente" },
-  { id: "web", label: "Recherche de sources sur le web", statut: "attente" },
-  { id: "score", label: "Calcul du score", statut: "attente" },
-];
+/**
+ * Ordre canonique des étapes par module (reflète le pipeline réel).
+ * Les LIBELLÉS ne sont pas ici : ils viennent du dictionnaire i18n (`d.steps`),
+ * construits dans la page. Ici on ne garde que l'enchaînement des identifiants.
+ */
+export const ETAPE_ORDRE = {
+  text: ["reception", "extraction", "affirmations", "corpus", "web", "score"],
+  link: ["reception", "page", "extraction", "corpus", "web", "score"],
+  image: ["reception", "extraction", "affirmations", "corpus", "web", "score"],
+} as const;
 
-/** Étapes du module LIEN : la récupération de la page remplace la traduction. */
-export const ETAPES_INIT_LIEN: EtapeUI[] = [
-  { id: "reception", label: "Réception du lien", statut: "attente" },
-  { id: "page", label: "Récupération de la page", statut: "attente" },
-  { id: "extraction", label: "Lecture du contenu", statut: "attente" },
-  { id: "corpus", label: "Recherche dans le corpus VoiCit", statut: "attente" },
-  { id: "web", label: "Recherche de sources sur le web", statut: "attente" },
-  { id: "score", label: "Calcul du score", statut: "attente" },
-];
+export type ModuleEtapes = keyof typeof ETAPE_ORDRE;
 
-/** Étapes du module IMAGE : OCR + affirmation véhiculée remplacent la traduction. */
-export const ETAPES_INIT_IMAGE: EtapeUI[] = [
-  { id: "reception", label: "Réception de l'image", statut: "attente" },
-  { id: "extraction", label: "Lecture de l'image (OCR)", statut: "attente" },
-  { id: "affirmations", label: "Affirmation véhiculée", statut: "attente" },
-  { id: "corpus", label: "Recherche dans le corpus VoiCit", statut: "attente" },
-  { id: "web", label: "Recherche de sources sur le web", statut: "attente" },
-  { id: "score", label: "Calcul du score", statut: "attente" },
-];
+/** Construit les étapes initiales localisées pour un module donné. */
+export function construireEtapes(
+  module: ModuleEtapes,
+  labels: Record<string, string>
+): EtapeUI[] {
+  return ETAPE_ORDRE[module].map((id) => ({
+    id: id as EtapeId,
+    label: labels[id] ?? id,
+    statut: "attente",
+  }));
+}
 
 export function ProgressSteps({ etapes }: { etapes: EtapeUI[] }) {
+  const d = useT();
   return (
     <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-card">
-      <p className="mb-4 text-sm font-semibold text-ink">Analyse en cours…</p>
+      <p className="mb-4 text-sm font-semibold text-ink">{d.analysing}</p>
       <ol className="space-y-3">
         {etapes.map((e) => (
           <li key={e.id} className="flex items-center gap-3">

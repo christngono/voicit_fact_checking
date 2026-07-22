@@ -1,5 +1,5 @@
 /**
- * Marque VoiCit — tornade dégradée reproduisant l'esprit du logo
+ * Marque VoCit — tornade dégradée reproduisant l'esprit du logo
  * (bandes empilées vert → rouge → orange → jaune se resserrant en pointe).
  */
 export function TornadoMark({ size = 34 }: { size?: number }) {
@@ -10,7 +10,7 @@ export function TornadoMark({ size = 34 }: { size?: number }) {
       height={size}
       viewBox="0 0 100 100"
       role="img"
-      aria-label="VoiCit"
+      aria-label="VoCit"
       className="shrink-0"
     >
       <defs>
@@ -39,7 +39,7 @@ export function Wordmark() {
       <TornadoMark size={28} />
       <div className="leading-none">
         <span className="text-lg font-extrabold tracking-tight text-ink">
-          Voi<span className="text-brand-500">Cit</span>
+          Vo<span className="text-brand-500">Cit</span>
         </span>
       </div>
     </div>

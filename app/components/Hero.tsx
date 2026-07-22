@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useT } from "./LocaleProvider";
 
 /**
  * Hero — carrousel narratif juste sous le header.
@@ -10,33 +11,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * Respecte prefers-reduced-motion (pas d'autoplay ni d'animation si demandé).
  */
 
-interface Slide {
-  img: string;
-  titre: string;
-  sous: string;
-}
-
-const SLIDES: Slide[] = [
-  {
-    img: "/hero/deinfos3.jpg",
-    titre: "Vérifier avant de partager.",
-    sous: "Un message douteux ? Envoyez-le, VoiCit vous répond en quelques secondes.",
-  },
-  {
-    img: "/hero/deinfos1.jpg",
-    titre: "Une fausse information n'est jamais sans conséquence.",
-    sous: "Elle blesse, elle divise, elle peut mettre des vies en danger. Vérifiez avant de partager.",
-  },
-  {
-    img: "/hero/deinfos2.jpg",
-    titre: "Une image, une voix, une vidéo peuvent être fabriquées.",
-    sous: "L'intelligence artificielle rend le faux crédible. VoiCit vous aide à faire la différence.",
-  },
-];
+// Images fixes du carrousel (le texte des slides vient du dictionnaire i18n).
+const IMGS = ["/hero/deinfos3.jpg", "/hero/deinfos1.jpg", "/hero/deinfos2.jpg"];
 
 const DELAI = 5500;
 
 export function Hero() {
+  const t = useT();
+  const SLIDES = t.hero.slides.map((s, i) => ({ ...s, img: IMGS[i] ?? IMGS[0] }));
   const [index, setIndex] = useState(0);
   const [pause, setPause] = useState(false);
   const n = SLIDES.length;
@@ -71,7 +53,7 @@ export function Hero() {
   return (
     <section
       aria-roledescription="carrousel"
-      aria-label="Messages de sensibilisation VoiCit"
+      aria-label={t.hero.label}
       className="relative mb-5 h-56 select-none overflow-hidden rounded-2xl shadow-card sm:h-72 md:h-80"
       onMouseEnter={() => setPause(true)}
       onMouseLeave={() => setPause(false)}
@@ -111,7 +93,7 @@ export function Hero() {
                 }
               >
                 <span className="mb-2 inline-block rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
-                  VoiCit
+                  VoCit
                 </span>
                 <h2 className="max-w-xl text-lg font-extrabold leading-tight text-white drop-shadow sm:text-2xl">
                   {s.titre}

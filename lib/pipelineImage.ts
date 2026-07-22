@@ -9,6 +9,7 @@ import {
   evaluerParRecherche,
   resultatDepuisMemoire,
 } from "./verifyShared";
+import type { Locale } from "./i18n/dictionary";
 import type { Signal, StreamEvent, VerifyResult } from "./types";
 
 /**
@@ -40,7 +41,8 @@ export async function verifierImage(
   base64: string,
   mimeType: string,
   emit: Emit,
-  llm: LLMProvider
+  llm: LLMProvider,
+  loc: Locale = "fr"
 ): Promise<VerifyResult> {
   // ── Étape 1 : réception ───────────────────────────────────────────────────
   emit({ type: "etape", id: "reception", statut: "termine", label: "Réception de l'image" });
@@ -48,7 +50,7 @@ export async function verifierImage(
   // ── Étape 2 : VISION (APPEL LLM 1) — OCR + description + affirmations ───────
   emit({ type: "etape", id: "extraction", statut: "en_cours", label: "Lecture de l'image (OCR)" });
   const brut = await withTimeout<string>(
-    llm.analyzeImage(base64, promptAnalyseImage(), mimeType),
+    llm.analyzeImage(base64, promptAnalyseImage(loc), mimeType),
     T_VISION,
     ""
   );
@@ -84,11 +86,11 @@ export async function verifierImage(
   emit({ type: "etape", id: "affirmations", statut: "termine", label: "Affirmation véhiculée" });
 
   // ── Étape 4 : MÉMOIRE COLLECTIVE (Temps 1) ────────────────────────────────
-  emit({ type: "etape", id: "corpus", statut: "en_cours", label: "Recherche dans le corpus VoiCit" });
+  emit({ type: "etape", id: "corpus", statut: "en_cours", label: "Recherche dans le corpus VoCit" });
   const requeteMemoire = `${ocr}. ${description}`.trim();
   const match = requeteMemoire.length > 4 ? await memoryStore.search(requeteMemoire) : null;
   if (match) {
-    emit({ type: "etape", id: "corpus", statut: "termine", label: "Trouvé dans le corpus VoiCit" });
+    emit({ type: "etape", id: "corpus", statut: "termine", label: "Trouvé dans le corpus VoCit" });
     emit({ type: "etape", id: "web", statut: "ignore", label: "Recherche web non nécessaire" });
     emit({ type: "etape", id: "score", statut: "en_cours", label: "Calcul du score" });
     const resultat = resultatDepuisMemoire(match.rumeur, affirmationsTxt);
@@ -99,7 +101,7 @@ export async function verifierImage(
 
   // ── Étape 5 : RECHERCHE WEB (APPELS LLM 2 & 3) — cœur partagé ──────────────
   emit({ type: "etape", id: "web", statut: "en_cours", label: "Recherche de sources sur le web" });
-  const web = await evaluerParRecherche(affirmationsTxt, llm);
+  const web = await evaluerParRecherche(affirmationsTxt, llm, loc);
   signaux.push(...web.signaux);
   emit({ type: "etape", id: "web", statut: "termine", label: "Recherche de sources sur le web" });
 

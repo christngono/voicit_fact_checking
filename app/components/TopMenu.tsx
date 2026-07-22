@@ -4,11 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IconPlus, IconRadar, IconFlag, IconMail } from "./Icons";
+import { useT } from "./LocaleProvider";
 
 type Entree = {
   href: string;
-  label: string;
-  desc: string;
+  key: "radar" | "contester" | "contact";
+  descKey: "radarDesc" | "contesterDesc" | "contactDesc";
   Icon: (p: { className?: string }) => JSX.Element;
   bientot?: boolean;
 };
@@ -18,31 +19,16 @@ type Entree = {
  * SANS jamais y cacher « Vérifier » (qui reste dans la barre basse).
  */
 const ENTREES: Entree[] = [
-  {
-    href: "/radar",
-    label: "Radar",
-    desc: "Cartographie de circulation des rumeurs",
-    Icon: IconRadar,
-    bientot: true,
-  },
-  {
-    href: "/contester",
-    label: "Contester un verdict",
-    desc: "Signaler un verdict que vous jugez inexact",
-    Icon: IconFlag,
-  },
-  {
-    href: "/contact",
-    label: "Contact / Partenaires",
-    desc: "Acteurs professionnels & accès API",
-    Icon: IconMail,
-  },
+  { href: "/radar", key: "radar", descKey: "radarDesc", Icon: IconRadar, bientot: true },
+  { href: "/contester", key: "contester", descKey: "contesterDesc", Icon: IconFlag },
+  { href: "/contact", key: "contact", descKey: "contactDesc", Icon: IconMail },
 ];
 
 export function TopMenu() {
   const [ouvert, setOuvert] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const d = useT();
 
   // Ferme le menu à chaque changement de page.
   useEffect(() => setOuvert(false), [pathname]);
@@ -71,7 +57,7 @@ export function TopMenu() {
         onClick={() => setOuvert((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={ouvert}
-        aria-label="Plus d'options"
+        aria-label={d.menu.more}
         className="grid h-9 w-9 place-items-center rounded-full text-gray-500 transition hover:bg-gray-100 hover:text-ink"
       >
         <IconPlus />
@@ -82,7 +68,7 @@ export function TopMenu() {
           role="menu"
           className="absolute right-0 top-11 z-40 w-72 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-card"
         >
-          {ENTREES.map(({ href, label, desc, Icon, bientot }) => (
+          {ENTREES.map(({ href, key, descKey, Icon, bientot }) => (
             <Link
               key={href}
               href={href}
@@ -94,14 +80,14 @@ export function TopMenu() {
               </span>
               <span className="min-w-0">
                 <span className="flex items-center gap-2 text-sm font-semibold text-ink">
-                  {label}
+                  {d.menu[key]}
                   {bientot && (
                     <span className="rounded-full bg-accent-yellow px-1.5 py-0.5 text-[9px] font-bold text-ink">
-                      bientôt
+                      {d.home.soon}
                     </span>
                   )}
                 </span>
-                <span className="mt-0.5 block text-xs text-gray-500">{desc}</span>
+                <span className="mt-0.5 block text-xs text-gray-500">{d.menu[descKey]}</span>
               </span>
             </Link>
           ))}

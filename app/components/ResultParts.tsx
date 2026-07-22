@@ -1,6 +1,7 @@
 "use client";
 
 import type { Affirmation, Source } from "@/lib/types";
+import { useT } from "./LocaleProvider";
 
 /** Bloc générique de section de résultat. */
 function Section({ titre, children }: { titre: string; children: React.ReactNode }) {
@@ -14,9 +15,10 @@ function Section({ titre, children }: { titre: string; children: React.ReactNode
 
 /** Les composantes du verdict = preuves lisibles présentées à l'utilisateur. */
 export function EvidenceList({ composantes }: { composantes: string[] }) {
+  const d = useT();
   if (composantes.length === 0) return null;
   return (
-    <Section titre="Ce que nous avons constaté">
+    <Section titre={d.result.evidenceTitle}>
       <ul className="space-y-2">
         {composantes.map((c, i) => (
           <li key={i} className="flex gap-2 text-sm text-ink/85">
@@ -29,20 +31,22 @@ export function EvidenceList({ composantes }: { composantes: string[] }) {
   );
 }
 
-const BADGE: Record<string, { label: string; cls: string }> = {
-  fiable: { label: "source fiable", cls: "bg-brand-50 text-brand-700" },
-  officiel: { label: "site officiel", cls: "bg-brand-50 text-brand-700" },
-  frauduleux: { label: "domaine frauduleux", cls: "bg-red-50 text-red-700" },
-  inconnu: { label: "à vérifier", cls: "bg-gray-100 text-gray-500" },
+const BADGE_CLS: Record<string, string> = {
+  fiable: "bg-brand-50 text-brand-700",
+  officiel: "bg-brand-50 text-brand-700",
+  frauduleux: "bg-red-50 text-red-700",
+  inconnu: "bg-gray-100 text-gray-500",
 };
 
 export function SourceList({ sources }: { sources: Source[] }) {
+  const d = useT();
   if (sources.length === 0) return null;
   return (
-    <Section titre="Sources consultées">
+    <Section titre={d.result.sourcesTitle}>
       <ul className="space-y-3">
         {sources.map((s, i) => {
-          const b = BADGE[s.fiabilite ?? "inconnu"] ?? BADGE.inconnu;
+          const fiab = (s.fiabilite ?? "inconnu") as keyof typeof d.result.badges;
+          const cls = BADGE_CLS[fiab] ?? BADGE_CLS.inconnu;
           return (
             <li key={i}>
               <a
@@ -55,8 +59,8 @@ export function SourceList({ sources }: { sources: Source[] }) {
                   <span className="line-clamp-2 text-sm font-medium text-brand-600">
                     {s.titre}
                   </span>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${b.cls}`}>
-                    {b.label}
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${cls}`}>
+                    {d.result.badges[fiab]}
                   </span>
                 </div>
                 <p className="mt-1 truncate text-xs text-gray-400">{s.url}</p>
@@ -70,35 +74,36 @@ export function SourceList({ sources }: { sources: Source[] }) {
   );
 }
 
-const STATUT_UI: Record<Affirmation["statut"], { label: string; cls: string }> = {
-  corroboree: { label: "Corroborée", cls: "bg-brand-50 text-brand-700" },
-  contredite: { label: "Contredite", cls: "bg-red-50 text-red-700" },
-  non_trouvee: { label: "Non trouvée", cls: "bg-gray-100 text-gray-500" },
-  non_verifiee: { label: "Non vérifiée", cls: "bg-gray-100 text-gray-500" },
+const STATUT_CLS: Record<Affirmation["statut"], string> = {
+  corroboree: "bg-brand-50 text-brand-700",
+  contredite: "bg-red-50 text-red-700",
+  non_trouvee: "bg-gray-100 text-gray-500",
+  non_verifiee: "bg-gray-100 text-gray-500",
 };
 
 export function ClaimList({ affirmations }: { affirmations: Affirmation[] }) {
+  const d = useT();
   if (affirmations.length === 0) return null;
   return (
-    <Section titre="Affirmations examinées">
+    <Section titre={d.result.claimsTitle}>
       <ul className="space-y-2.5">
-        {affirmations.map((a, i) => {
-          const s = STATUT_UI[a.statut];
-          return (
-            <li key={i} className="flex items-start justify-between gap-3">
-              <span className="text-sm text-ink/85">{a.texte}</span>
-              <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${s.cls}`}>
-                {s.label}
-              </span>
-            </li>
-          );
-        })}
+        {affirmations.map((a, i) => (
+          <li key={i} className="flex items-start justify-between gap-3">
+            <span className="text-sm text-ink/85">{a.texte}</span>
+            <span
+              className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${STATUT_CLS[a.statut]}`}
+            >
+              {d.result.statuts[a.statut]}
+            </span>
+          </li>
+        ))}
       </ul>
     </Section>
   );
 }
 
 export function AdviceBox({ conseil }: { conseil: string }) {
+  const d = useT();
   return (
     <div className="rounded-2xl border border-brand-100 bg-brand-50 p-5">
       <div className="flex items-start gap-3">
@@ -106,9 +111,7 @@ export function AdviceBox({ conseil }: { conseil: string }) {
           ♻
         </span>
         <div>
-          <h3 className="text-sm font-semibold text-brand-700">
-            Conseil de responsabilité numérique
-          </h3>
+          <h3 className="text-sm font-semibold text-brand-700">{d.result.adviceTitle}</h3>
           <p className="mt-1 text-sm leading-relaxed text-brand-700/90">{conseil}</p>
         </div>
       </div>

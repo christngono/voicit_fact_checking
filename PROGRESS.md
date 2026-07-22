@@ -38,6 +38,8 @@ Corollaires :
 | — | Hero carrousel + header allégé (UI accueil) | ✅ FAIT (hors plan initial, demandé en cours) |
 | — | Navigation (barre basse 4 items + menu secondaire) + pages dédiées | ✅ FAIT (hors plan, demandé en cours) |
 | — | Splash screen animé (logo) + message d'aide « comment utiliser » | ✅ FAIT (hors plan, demandé en cours) |
+| — | Renommage marque **VoiCit → VoCit** partout (identifiants techniques exclus) | ✅ FAIT (demandé en cours) |
+| — | **i18n FR/EN** : écran de choix après splash + interface bilingue + explications LLM localisées | ✅ FAIT (demandé en cours) |
 
 **Méthode de travail convenue avec l'utilisateur : s'arrêter après chaque étape
 pour qu'il teste, avant d'enchaîner.**
@@ -73,6 +75,29 @@ pour qu'il teste, avant d'enchaîner.**
 - Onglet **Vidéo** ajouté avec badge « bientôt » (aucun pipeline). Grille d'onglets
   passée à 5 colonnes (Texte, Lien, Image, Vidéo, Numéro).
 - Message d'aide « Comment ça marche » sur l'accueil (au-dessus des onglets).
+- **Marque** : « VoiCit » renommé **« VoCit »** partout (UI + commentaires). Les
+  identifiants techniques en minuscules restent inchangés (cookie `voicit_locale`,
+  clés `voicit:historique`/`voicit:splashVu`, nom de package `voicit`).
+- **i18n FR/EN** (`lib/i18n/`) : dictionnaire `dictionary.ts` (`en: typeof fr` =
+  parité de clés garantie), lecteur serveur `server.ts` (cookie `voicit_locale` via
+  `next/headers`), contexte client `LocaleProvider`/`useT`. Architecture **cookie +
+  contexte** : les pages SERVEUR lisent le cookie (pas de conversion en client), les
+  composants CLIENT passent par le contexte. `LanguageGate` = écran de choix EN/FR
+  après le splash (z-95, sous le splash z-100), affiché seulement si aucun choix
+  (cookie absent). Choisir écrit le cookie + `router.refresh()`.
+  - Traduits : layout (header/footer), splash, nav basse, menu, accueil complet
+    (aide, onglets, formulaires, boutons, erreurs), étapes de progression (libellés
+    depuis le dico, statut serveur ignoré), résultat (titres, badges, statuts,
+    niveaux, carte verdict), Hero, RecentRumors, et toutes les pages (À propos,
+    Rumeurs, Radar, Contester, Contact, Historique).
+  - **LLM localisé** : la page envoie `locale` dans le corps ; les routes la lisent
+    (`isLocale`) et la passent aux pipelines → `promptAnalyseTexte/Lien/Image`
+    (affirmations en EN) + `promptSyntheseWeb` (résumé/explication en EN) +
+    requête de recherche. ⚠️ Visible seulement quand la recherche web aboutit
+    (Gemini payant/Claude/OpenAI) ; sur clé gratuite, pas d'affirmations (comme
+    avant). Libellés de preuves déterministes (`composantes`) et `conseil` restent
+    en FR (périmètre convenu).
+  - `/a-propos` et `/rumeurs` deviennent dynamiques (`ƒ`) car ils lisent le cookie.
 - Mémoire `lib/memory.ts` : interface `MemoryStore` + `InMemoryStore`
   (similarité Jaccard + racinisation à 7 car.). **Aucune écriture disque.**
 - Réputation `lib/reputation.ts` (+ `data/domaines.json`), normalisation numéro
@@ -168,7 +193,8 @@ app/
   a-propos/ rumeurs/ historique/ radar/ contester/ contact/   pages de navigation
   components/               Hero, Logo, ProgressSteps, VerdictCard, ResultParts,
                             RecentRumors, niveau.ts, BottomNav, TopMenu, Icons,
-                            PageIntro
+                            PageIntro, SplashScreen, LocaleProvider, LanguageGate
+lib/i18n/       dictionary.ts (FR/EN) · server.ts (cookie) · cookie.ts
   api/verify/text/route.ts  pipeline TEXTE en SSE (robuste)
   api/verify/link/route.ts  pipeline LIEN en SSE (robuste)
   api/verify/image/route.ts pipeline IMAGE en SSE (robuste)

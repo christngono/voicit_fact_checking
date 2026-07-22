@@ -1,5 +1,5 @@
 /**
- * Jeu d'icônes VoiCit — SVG inline (aucune dépendance externe, aucune requête réseau).
+ * Jeu d'icônes VoCit — SVG inline (aucune dépendance externe, aucune requête réseau).
  * Toutes tracées en `currentColor` pour hériter de la couleur du texte parent.
  */
 type IconProps = { className?: string; size?: number };

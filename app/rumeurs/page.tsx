@@ -3,10 +3,12 @@ import path from "node:path";
 import type { Rumeur } from "@/lib/types";
 import { NIVEAU_UI } from "../components/niveau";
 import { PageIntro } from "../components/PageIntro";
+import { readLocale } from "@/lib/i18n/server";
+import { getDict } from "@/lib/i18n/dictionary";
 
 export const runtime = "nodejs";
 
-/** Liste publique des cas déjà présents dans le corpus VoiCit (lecture seule). */
+/** Liste publique des cas déjà présents dans le corpus VoCit (lecture seule). */
 function chargerCorpus(): Rumeur[] {
   try {
     const fichier = path.join(process.cwd(), "data", "rumeurs.json");
@@ -19,20 +21,18 @@ function chargerCorpus(): Rumeur[] {
 }
 
 export default function RumeursPage() {
+  const d = getDict(readLocale());
   const rumeurs = chargerCorpus().sort((a, b) =>
     (b.dateVerification ?? "").localeCompare(a.dateVerification ?? "")
   );
 
   return (
     <div>
-      <PageIntro
-        titre="Rumeurs"
-        sous="Le corpus public de VoiCit : des cas déjà vérifiés, consultables sans rien soumettre. Une rumeur démentie une fois est démentie pour tout le monde."
-      />
+      <PageIntro titre={d.rumeurs.title} sous={d.rumeurs.sub} />
 
       {rumeurs.length === 0 ? (
         <p className="rounded-2xl border border-black/5 bg-white p-8 text-center text-sm text-gray-500 shadow-card">
-          Le corpus est momentanément indisponible.
+          {d.rumeurs.unavailable}
         </p>
       ) : (
         <ul className="space-y-3">
@@ -48,11 +48,11 @@ export default function RumeursPage() {
                     className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white"
                     style={{ backgroundColor: ui.couleur }}
                   >
-                    {ui.label}
+                    {d.niveaux[r.verdict]}
                   </span>
                   {r.dateVerification && (
                     <span className="text-[11px] text-gray-400">
-                      Vérifié le {r.dateVerification}
+                      {d.rumeurs.verifiedOn} {r.dateVerification}
                     </span>
                   )}
                 </div>

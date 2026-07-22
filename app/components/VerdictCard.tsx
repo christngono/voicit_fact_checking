@@ -2,9 +2,11 @@
 
 import type { VerifyResult } from "@/lib/types";
 import { NIVEAU_UI } from "./niveau";
+import { useT } from "./LocaleProvider";
 
 /** En-tête du résultat : niveau (code couleur) + jauge de score. */
 export function VerdictCard({ r }: { r: VerifyResult }) {
+  const d = useT();
   const ui = NIVEAU_UI[r.niveau];
   return (
     <div className={`rounded-2xl border border-black/5 p-5 shadow-card ${ui.bg}`}>
@@ -17,15 +19,15 @@ export function VerdictCard({ r }: { r: VerifyResult }) {
             {ui.emoji}
           </span>
           <div>
-            <p className={`text-lg font-extrabold ${ui.texte}`}>{ui.label}</p>
+            <p className={`text-lg font-extrabold ${ui.texte}`}>{d.niveaux[r.niveau]}</p>
             {r.origine === "memoire" && (
               <p className="text-xs text-gray-500">
-                Réponse instantanée depuis le corpus VoiCit
-                {r.dateVerification ? ` · vérifié le ${r.dateVerification}` : ""}
+                {d.result.instantCorpus}
+                {r.dateVerification ? ` · ${d.result.verifiedOn} ${r.dateVerification}` : ""}
               </p>
             )}
             {r.origine === "recherche_web" && (
-              <p className="text-xs text-gray-500">Vérifié par recherche de sources</p>
+              <p className="text-xs text-gray-500">{d.result.verifiedWeb}</p>
             )}
           </div>
         </div>
@@ -34,7 +36,7 @@ export function VerdictCard({ r }: { r: VerifyResult }) {
             {r.score}
             <span className="text-sm font-medium text-gray-400">/100</span>
           </p>
-          <p className="text-[11px] text-gray-500">indice de fiabilité</p>
+          <p className="text-[11px] text-gray-500">{d.result.scoreLabel}</p>
         </div>
       </div>
 

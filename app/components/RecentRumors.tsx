@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useT } from "./LocaleProvider";
 
 interface RumeurBreve {
   id: string;
@@ -11,6 +12,7 @@ interface RumeurBreve {
 
 /** Bas d'accueil : rumeurs récemment démenties, issues du corpus. */
 export function RecentRumors() {
+  const d = useT();
   const [rumeurs, setRumeurs] = useState<RumeurBreve[]>([]);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export function RecentRumors() {
 
   return (
     <section className="mt-8">
-      <h2 className="mb-3 text-sm font-semibold text-ink">Rumeurs récemment démenties</h2>
+      <h2 className="mb-3 text-sm font-semibold text-ink">{d.home.recentTitle}</h2>
       <ul className="space-y-2">
         {rumeurs.map((r) => (
           <li
@@ -33,12 +35,12 @@ export function RecentRumors() {
           >
             <div className="flex items-start gap-2">
               <span className="mt-0.5 shrink-0 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-semibold text-red-700">
-                Faux
+                {d.niveaux.faux}
               </span>
               <p className="text-sm text-ink/80">{r.texte}</p>
             </div>
             <p className="mt-1 pl-1 text-[11px] text-gray-400">
-              Vérifié le {r.dateVerification}
+              {d.rumeurs.verifiedOn} {r.dateVerification}
             </p>
           </li>
         ))}

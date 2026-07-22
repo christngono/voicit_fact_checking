@@ -1,5 +1,6 @@
 import type { LLMProvider } from "./llm";
 import { promptSyntheseWeb } from "./llm/prompts";
+import type { Locale } from "./i18n/dictionary";
 import { calculerScore } from "./scoring";
 import { memoryStore } from "./memory";
 import { annoterSources, compterFiables } from "./reputation";
@@ -44,7 +45,8 @@ export interface ResultatRecherche {
  */
 export async function evaluerParRecherche(
   affirmationsTxt: string[],
-  llm: LLMProvider
+  llm: LLMProvider,
+  loc: Locale = "fr"
 ): Promise<ResultatRecherche> {
   const signaux: Signal[] = [];
   const affirmations: Affirmation[] = [];
@@ -53,9 +55,11 @@ export async function evaluerParRecherche(
   let rechercheDisponible = false;
 
   if (affirmationsTxt.length > 0) {
-    const requete =
-      "Vérifie ces affirmations au Cameroun et cite des sources fiables :\n" +
-      affirmationsTxt.map((a, i) => `${i + 1}. ${a}`).join("\n");
+    const entete =
+      loc === "en"
+        ? "Fact-check these claims about Cameroon and cite reliable sources:\n"
+        : "Vérifie ces affirmations au Cameroun et cite des sources fiables :\n";
+    const requete = entete + affirmationsTxt.map((a, i) => `${i + 1}. ${a}`).join("\n");
 
     const recherche = await withTimeout(
       llm.searchAndAnswer(requete),
@@ -73,7 +77,7 @@ export async function evaluerParRecherche(
         resume: string;
       }>(
         llm.completeJSON(
-          promptSyntheseWeb(affirmationsTxt, resumeSources(recherche.text, sources))
+          promptSyntheseWeb(affirmationsTxt, resumeSources(recherche.text, sources), loc)
         ),
         BUDGET_SYNTHESE,
         { statuts: [], resume: recherche.text.slice(0, 300) }
@@ -153,10 +157,10 @@ export function resultatDepuisMemoire(
 ): VerifyResult {
   const signaux: Signal[] =
     rumeur.verdict === "faux"
-      ? [{ code: "deja_dementi", sens: "negatif", libelle: `Déjà démenti par VoiCit le ${rumeur.dateVerification}` }]
+      ? [{ code: "deja_dementi", sens: "negatif", libelle: `Déjà démenti par VoCit le ${rumeur.dateVerification}` }]
       : rumeur.verdict === "fiable"
-      ? [{ code: "deja_confirme", sens: "positif", libelle: `Déjà confirmé par VoiCit le ${rumeur.dateVerification}` }]
-      : [{ code: "sources_non_fiables_seulement", sens: "neutre", libelle: `Déjà examiné par VoiCit le ${rumeur.dateVerification}` }];
+      ? [{ code: "deja_confirme", sens: "positif", libelle: `Déjà confirmé par VoCit le ${rumeur.dateVerification}` }]
+      : [{ code: "sources_non_fiables_seulement", sens: "neutre", libelle: `Déjà examiné par VoCit le ${rumeur.dateVerification}` }];
 
   const base =
     rumeur.verdict === "faux" || rumeur.verdict === "fiable"

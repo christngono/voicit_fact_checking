@@ -2,6 +2,7 @@ import { getLLM } from "@/lib/llm";
 import { verifierLien } from "@/lib/pipelineLien";
 import { conseilResponsabilite } from "@/lib/verifyShared";
 import { creerFluxSSE } from "@/lib/sse";
+import { isLocale, type Locale } from "@/lib/i18n/dictionary";
 import type { VerifyResult } from "@/lib/types";
 
 // Runtime Node.js requis (SDK LLM + fetch de page distante).
@@ -19,9 +20,11 @@ export const maxDuration = 60;
  */
 export async function POST(req: Request) {
   let url = "";
+  let locale: Locale = "fr";
   try {
     const body = await req.json();
     url = (body?.url ?? "").toString().trim();
+    if (isLocale(body?.locale)) locale = body.locale;
   } catch {
     return Response.json({ error: "Corps JSON invalide." }, { status: 400 });
   }
@@ -33,7 +36,7 @@ export async function POST(req: Request) {
   return creerFluxSSE(async (emit) => {
     try {
       const llm = getLLM();
-      const resultat = await verifierLien(url, emit, llm);
+      const resultat = await verifierLien(url, emit, llm, locale);
       emit({ type: "resultat", data: resultat });
     } catch (err) {
       const message = (err as Error).message || "Service momentanément indisponible.";

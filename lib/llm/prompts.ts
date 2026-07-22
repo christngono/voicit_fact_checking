@@ -1,10 +1,19 @@
 /**
- * Tous les prompts de VoiCit, centralisés.
+ * Tous les prompts de VoCit, centralisés.
  *
  * RÈGLE : aucun prompt ne demande au LLM de trancher la véracité ni de donner
  * un score. Les prompts servent à normaliser, extraire, classer, chercher et
  * rédiger. Le verdict est calculé par lib/scoring.ts.
  */
+import type { Locale } from "../i18n/dictionary";
+
+/** Consigne de langue pour les affirmations (le reste des champs reste interne). */
+const consigneAffirmations = (loc: Locale): string =>
+  loc === "en" ? '\nIMPORTANT : rédige les valeurs de "affirmations" en ANGLAIS.' : "";
+
+/** Consigne de langue pour le résumé rédigé (l'explication montrée à l'utilisateur). */
+const consigneResume = (loc: Locale): string =>
+  loc === "en" ? '\nIMPORTANT : rédige le "resume" en ANGLAIS.' : "";
 
 /**
  * APPEL 1 (combiné) — normalisation + extraction + marqueurs en UN seul appel.
@@ -13,20 +22,20 @@
  * vérification). On regroupe donc trois tâches de COMPRÉHENSION (jamais de
  * jugement de véracité) dans une seule complétion JSON.
  */
-export function promptAnalyseTexte(contenu: string): string {
+export function promptAnalyseTexte(contenu: string, loc: Locale = "fr"): string {
   return `Tu assistes une plateforme camerounaise de vérification. Le message peut être
 en français, anglais, pidgin camerounais ou camfranglais.
 
 Fais TROIS choses, sans jamais juger si le contenu est vrai ou faux, sans rien chercher :
 1. "traduction" : traduis le message en français standard clair (garde chiffres, lieux,
-   montants FCFA, dates à l'identique).
+   montants FCFA, dates à l'identique). Garde ce champ EN FRANÇAIS (usage interne).
 2. "affirmations" : liste les affirmations FACTUELLES vérifiables (un fait précis, daté
    ou chiffrable). Pas d'opinions, questions ni appels à l'action. Max 4.
 3. "marqueurs" : marqueurs de manipulation rhétorique présents (urgence, injonction de
    partage, source anonyme, appel à la peur). Type ∈ urgence|partage|source_anonyme|peur|autre.
 
 Réponds STRICTEMENT en JSON :
-{"traduction":"...","affirmations":["..."],"marqueurs":[{"type":"...","extrait":"..."}]}
+{"traduction":"...","affirmations":["..."],"marqueurs":[{"type":"...","extrait":"..."}]}${consigneAffirmations(loc)}
 
 MESSAGE :
 """
@@ -43,17 +52,18 @@ ${contenu}
  */
 export function promptSyntheseWeb(
   affirmations: string[],
-  resultatsWeb: string
+  resultatsWeb: string,
+  loc: Locale = "fr"
 ): string {
   return `Voici des affirmations et des EXTRAITS DE SOURCES trouvés sur le web.
 En t'appuyant UNIQUEMENT sur ces extraits (jamais sur tes connaissances) :
 - pour chaque affirmation, donne un "statut" : "corroboree" | "contredite" | "non_trouvee".
   En cas de doute, "non_trouvee". Ne devine pas.
-- rédige un "resume" NEUTRE (2 phrases max) de ce que montrent les sources, en français
+- rédige un "resume" NEUTRE (2 phrases max) de ce que montrent les sources, en langage
   simple. NE donne PAS de verdict ni de score : décris seulement ce qui a été trouvé.
 
 Réponds STRICTEMENT en JSON :
-{"statuts":[{"affirmation":"...","statut":"..."}],"resume":"..."}
+{"statuts":[{"affirmation":"...","statut":"..."}],"resume":"..."}${consigneResume(loc)}
 
 AFFIRMATIONS :
 ${JSON.stringify(affirmations)}
@@ -157,20 +167,20 @@ ${resultatsWeb}
  * titre/contenu en UN seul appel JSON. Comme pour le texte, le LLM ne juge
  * jamais la véracité : il comprend et extrait, le scoring tranche.
  */
-export function promptAnalyseLien(titre: string, corps: string): string {
+export function promptAnalyseLien(titre: string, corps: string, loc: Locale = "fr"): string {
   return `Tu assistes une plateforme camerounaise de vérification. Voici le TITRE et le
 CORPS d'un article web. Fais DEUX choses, sans juger si c'est vrai ou faux, sans rien
 chercher sur le web :
 
 1. "affirmations" : liste les affirmations FACTUELLES vérifiables portées par l'article
    (un fait précis, daté ou chiffrable). Pas d'opinions, questions ni appels à l'action.
-   Formule-les en français standard clair. Max 4.
+   Formule-les en langage clair. Max 4.
 2. "ecart_titre_contenu" : le titre promet-il/affirme-t-il quelque chose que le corps ne
    soutient pas (exagération, sensationnalisme, piège à clic) ? Donne {"ecart": true|false,
    "explication": "phrase courte"}.
 
 Réponds STRICTEMENT en JSON :
-{"affirmations":["..."],"ecart_titre_contenu":{"ecart":false,"explication":"..."}}
+{"affirmations":["..."],"ecart_titre_contenu":{"ecart":false,"explication":"..."}}${consigneAffirmations(loc)}
 
 TITRE : """${titre}"""
 CORPS : """${corps.slice(0, 4000)}"""`;
@@ -192,7 +202,7 @@ CORPS : """${corps.slice(0, 4000)}"""`;
  * affirmations en UN seul appel. Le LLM ne juge JAMAIS la véracité : il lit,
  * décrit et extrait ; le verdict est calculé ensuite par lib/scoring.ts.
  */
-export function promptAnalyseImage(): string {
+export function promptAnalyseImage(loc: Locale = "fr"): string {
   return `Tu assistes une plateforme camerounaise de vérification. Analyse cette image
 SANS juger si son contenu est vrai ou faux, sans rien chercher sur le web.
 
@@ -204,10 +214,10 @@ Fais QUATRE choses :
    (retouche/assemblage visible), "genere_ia" (visiblement généré par IA) ou "inconnu".
 4. "affirmations" : liste les affirmations FACTUELLES vérifiables véhiculées par l'image
    (par son texte, ou ce qu'elle veut faire croire). Un fait précis, daté ou chiffrable,
-   en français clair. Pas d'opinions ni de généralités. Max 4.
+   en langage clair. Pas d'opinions ni de généralités. Max 4.
 
 Réponds STRICTEMENT en JSON :
-{"texte_incruste":"...","description":"...","type_visuel":"...","affirmations":["..."]}`;
+{"texte_incruste":"...","description":"...","type_visuel":"...","affirmations":["..."]}${consigneAffirmations(loc)}`;
 }
 
 /** Formule l'affirmation implicite véhiculée par une image (à partir de sa description). */

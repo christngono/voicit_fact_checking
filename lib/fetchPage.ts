@@ -59,7 +59,7 @@ export async function recupererPage(urlBrut: string): Promise<PageRecuperee> {
       headers: {
         // Un UA de navigateur : certains sites renvoient 403 à un client anonyme.
         "User-Agent":
-          "Mozilla/5.0 (compatible; VoiCitBot/1.0; +https://voicit.cm) verification-fact-checking",
+          "Mozilla/5.0 (compatible; VoCitBot/1.0; +https://voicit.cm) verification-fact-checking",
         Accept: "text/html,application/xhtml+xml",
         "Accept-Language": "fr,en;q=0.8",
       },

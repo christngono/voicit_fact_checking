@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { TornadoMark } from "../components/Logo";
+import { readLocale } from "@/lib/i18n/server";
+import { getDict } from "@/lib/i18n/dictionary";
 
 export const metadata: Metadata = {
   title: "À propos de VoCit — Vérifier avant de partager",
@@ -17,25 +19,10 @@ function Section({ titre, children }: { titre: string; children: React.ReactNode
   );
 }
 
-const PROTECTIONS = [
-  {
-    emoji: "🗣️",
-    titre: "La désinformation",
-    desc: "Rumeurs, photos et vidéos sorties de leur contexte, faux communiqués.",
-  },
-  {
-    emoji: "💸",
-    titre: "Les escroqueries numériques",
-    desc: "Faux dépôts Mobile Money, phishing, usurpations d'identité.",
-  },
-  {
-    emoji: "🤖",
-    titre: "Les dérives de l'IA",
-    desc: "Contenus trompeurs générés ou manipulés par intelligence artificielle.",
-  },
-];
+const EMOJIS = ["🗣️", "💸", "🤖"];
 
 export default function AProposPage() {
+  const a = getDict(readLocale()).apropos;
   return (
     <div className="space-y-4">
       {/* Bandeau d'introduction — signature visuelle de la marque */}
@@ -44,42 +31,22 @@ export default function AProposPage() {
         <div className="p-6">
           <div className="mb-3 flex items-center gap-3">
             <TornadoMark size={40} />
-            <h1 className="text-2xl font-extrabold tracking-tight text-ink">
-              À propos de VoCit
-            </h1>
+            <h1 className="text-2xl font-extrabold tracking-tight text-ink">{a.title}</h1>
           </div>
-          <p className="text-sm leading-relaxed text-ink/80">
-            <strong className="font-semibold text-ink">VoCit (Voice of the Citizen)</strong>{" "}
-            est une plateforme camerounaise qui aide chaque citoyen à vérifier un contenu
-            douteux — texte, image, lien ou numéro de téléphone — avant de le croire ou de
-            le partager.
-          </p>
+          <p className="text-sm leading-relaxed text-ink/80">{a.intro}</p>
         </div>
       </header>
 
-      <Section titre="Pourquoi VoCit existe">
-        <p>
-          Le cyberespace camerounais est traversé chaque jour par des rumeurs, des contenus
-          sortis de leur contexte, des images et des vidéos parfois générées par intelligence
-          artificielle, et des tentatives d'escroquerie numérique. Beaucoup de citoyens
-          veulent vérifier avant de partager, mais ils n'ont pas d'outil simple, rapide, et
-          adapté à leur réalité pour le faire.
-        </p>
-        <p>
-          VoCit répond à ce besoin. Vous soumettez un contenu, VoCit vous répond en quelques
-          secondes.
-        </p>
+      <Section titre={a.whyTitle}>
+        {a.whyBody.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
       </Section>
 
-      <Section titre="Comment ça fonctionne">
-        <p>VoCit ne dit jamais simplement « vrai » ou « faux ». Il vous montre les preuves :</p>
+      <Section titre={a.howTitle}>
+        <p>{a.howIntro}</p>
         <ul className="space-y-2 pl-1">
-          {[
-            "Le contenu est d'abord comparé à notre corpus de rumeurs déjà vérifiées. S'il y correspond, la réponse est instantanée.",
-            "S'il est nouveau, VoCit recherche des sources fiables sur le web pour établir les faits.",
-            "Un score est calculé à partir de ces preuves — jamais deviné par une intelligence artificielle.",
-            "Vous recevez le verdict, les sources consultées, et un conseil pour décider en connaissance de cause.",
-          ].map((t, i) => (
+          {a.howList.map((t, i) => (
             <li key={i} className="flex gap-2">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
               <span>{t}</span>
@@ -96,32 +63,20 @@ export default function AProposPage() {
         >
           “
         </span>
-        <p className="relative text-base font-semibold leading-relaxed">
-          Notre principe : l'IA ne juge pas. Elle traduit, elle cherche, elle explique.
-          Le verdict vient des preuves.
-        </p>
+        <p className="relative text-base font-semibold leading-relaxed">{a.quote}</p>
       </blockquote>
 
-      <Section titre="VoCit vérifie, mais aussi instruit">
-        <p>
-          VoCit ne se limite pas à répondre « vrai » ou « faux ». À chaque vérification, la
-          plateforme explique pourquoi un contenu est fiable ou non, quels signes permettent
-          de le reconnaître, et quels réflexes adopter avant de partager. L'objectif est que
-          chaque utilisateur devienne, avec le temps, plus autonome pour reconnaître seul une
-          désinformation, sans dépendre uniquement de l'outil.
-        </p>
-        <p>
-          C'est pour cela que VoCit accompagne aussi les citoyens, notamment les plus jeunes,
-          à travers des contenus pédagogiques et des campagnes de sensibilisation à l'esprit
-          critique et à l'usage responsable du numérique.
-        </p>
+      <Section titre={a.instructTitle}>
+        {a.instructBody.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
       </Section>
 
-      <Section titre="Ce que VoCit protège">
+      <Section titre={a.protectTitle}>
         <div className="grid gap-3 sm:grid-cols-3">
-          {PROTECTIONS.map((p) => (
+          {a.protect.map((p, i) => (
             <div key={p.titre} className="rounded-xl bg-gray-50 p-3">
-              <div className="text-2xl">{p.emoji}</div>
+              <div className="text-2xl">{EMOJIS[i] ?? "🛡️"}</div>
               <p className="mt-1 text-sm font-semibold text-ink">{p.titre}</p>
               <p className="mt-0.5 text-xs text-ink/70">{p.desc}</p>
             </div>
@@ -129,25 +84,15 @@ export default function AProposPage() {
         </div>
       </Section>
 
-      <Section titre="Une mémoire collective">
-        <p>
-          Chaque contenu vérifié enrichit un corpus commun, hébergé au Cameroun. Une rumeur
-          démentie une fois est démentie pour toujours, pour tout le monde. C'est cette
-          mémoire partagée qui rend VoCit plus utile chaque jour.
-        </p>
+      <Section titre={a.memoryTitle}>
+        <p>{a.memoryBody}</p>
       </Section>
 
-      <Section titre="Notre engagement">
-        <p>
-          VoCit vérifie des faits, jamais des opinions. Nous ne supprimons aucun contenu :
-          nous informons et nous instruisons. Chaque verdict peut être contesté, et les cas
-          ambigus sont examinés par des vérificateurs humains.
-        </p>
+      <Section titre={a.engageTitle}>
+        <p>{a.engageBody}</p>
       </Section>
 
-      <p className="py-2 text-center text-sm font-semibold italic text-brand-600">
-        Vérifier avant de partager.
-      </p>
+      <p className="py-2 text-center text-sm font-semibold italic text-brand-600">{a.closing}</p>
     </div>
   );
 }

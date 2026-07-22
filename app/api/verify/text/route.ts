@@ -1,6 +1,7 @@
 import { getLLM } from "@/lib/llm";
 import { verifierTexte, conseilResponsabilite } from "@/lib/pipeline";
 import { creerFluxSSE } from "@/lib/sse";
+import { isLocale, type Locale } from "@/lib/i18n/dictionary";
 import type { VerifyResult } from "@/lib/types";
 
 // Runtime Node.js requis (SDK des fournisseurs LLM).
@@ -20,9 +21,11 @@ export const maxDuration = 60;
  */
 export async function POST(req: Request) {
   let contenu = "";
+  let locale: Locale = "fr";
   try {
     const body = await req.json();
     contenu = (body?.contenu ?? "").toString().trim();
+    if (isLocale(body?.locale)) locale = body.locale;
   } catch {
     return Response.json({ error: "Corps JSON invalide." }, { status: 400 });
   }
@@ -34,7 +37,7 @@ export async function POST(req: Request) {
   return creerFluxSSE(async (emit) => {
     try {
       const llm = getLLM(); // peut lever si la clé du fournisseur est absente
-      const resultat = await verifierTexte(contenu, emit, llm);
+      const resultat = await verifierTexte(contenu, emit, llm, locale);
       emit({ type: "resultat", data: resultat });
     } catch (err) {
       // Filet de sécurité ultime : on livre un résultat honnête, jamais un crash.

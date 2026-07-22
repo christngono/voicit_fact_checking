@@ -1,5 +1,6 @@
 import type { LLMProvider } from "./llm";
 import { promptAnalyseTexte } from "./llm/prompts";
+import type { Locale } from "./i18n/dictionary";
 import { memoryStore } from "./memory";
 import { withTimeout } from "./util";
 import {
@@ -41,7 +42,8 @@ interface Analyse {
 export async function verifierTexte(
   contenu: string,
   emit: Emit,
-  llm: LLMProvider
+  llm: LLMProvider,
+  loc: Locale = "fr"
 ): Promise<VerifyResult> {
   // ── Étape 1 : réception ───────────────────────────────────────────────────
   emit({ type: "etape", id: "reception", statut: "termine", label: "Réception du contenu" });
@@ -49,7 +51,7 @@ export async function verifierTexte(
   // ── Étape 2 : ANALYSE (APPEL LLM 1) — traduction + affirmations + marqueurs ─
   emit({ type: "etape", id: "extraction", statut: "en_cours", label: "Lecture et traduction" });
   const analyse = await withTimeout<Analyse>(
-    llm.completeJSON<Analyse>(promptAnalyseTexte(contenu)),
+    llm.completeJSON<Analyse>(promptAnalyseTexte(contenu, loc)),
     T_ANALYSE,
     { traduction: contenu, affirmations: [], marqueurs: [] } // repli : texte brut
   );
@@ -61,10 +63,10 @@ export async function verifierTexte(
   emit({ type: "etape", id: "affirmations", statut: "termine", label: "Identification des affirmations" });
 
   // ── Étape 3 : MÉMOIRE COLLECTIVE (Temps 1, sans web, sans LLM) ─────────────
-  emit({ type: "etape", id: "corpus", statut: "en_cours", label: "Recherche dans le corpus VoiCit" });
+  emit({ type: "etape", id: "corpus", statut: "en_cours", label: "Recherche dans le corpus VoCit" });
   const match = await memoryStore.search(contenuFr);
   if (match) {
-    emit({ type: "etape", id: "corpus", statut: "termine", label: "Trouvé dans le corpus VoiCit" });
+    emit({ type: "etape", id: "corpus", statut: "termine", label: "Trouvé dans le corpus VoCit" });
     emit({ type: "etape", id: "web", statut: "ignore", label: "Recherche web non nécessaire" });
     emit({ type: "etape", id: "score", statut: "en_cours", label: "Calcul du score" });
     const resultat = resultatDepuisMemoire(match.rumeur, affirmationsTxt);
@@ -85,7 +87,7 @@ export async function verifierTexte(
 
   // ── Étape 4 : RECHERCHE WEB (APPELS LLM 2 & 3) — délégué au cœur partagé ────
   emit({ type: "etape", id: "web", statut: "en_cours", label: "Recherche de sources sur le web" });
-  const web = await evaluerParRecherche(affirmationsTxt, llm);
+  const web = await evaluerParRecherche(affirmationsTxt, llm, loc);
   signaux.push(...web.signaux);
   emit({ type: "etape", id: "web", statut: "termine", label: "Recherche de sources sur le web" });
 

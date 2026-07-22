@@ -16,6 +16,7 @@ import {
   evaluerParRecherche,
   resultatDepuisMemoire,
 } from "./verifyShared";
+import type { Locale } from "./i18n/dictionary";
 import type { Signal, Source, StreamEvent, VerifyResult } from "./types";
 
 /**
@@ -47,7 +48,8 @@ interface AnalyseLien {
 export async function verifierLien(
   urlBrut: string,
   emit: Emit,
-  llm: LLMProvider
+  llm: LLMProvider,
+  loc: Locale = "fr"
 ): Promise<VerifyResult> {
   // ── Étape 1 : réception ───────────────────────────────────────────────────
   emit({ type: "etape", id: "reception", statut: "termine", label: "Réception du lien" });
@@ -102,7 +104,7 @@ export async function verifierLien(
   // ── Étape 3 : ANALYSE (APPEL LLM 1) — affirmations + écart titre/contenu ───
   emit({ type: "etape", id: "extraction", statut: "en_cours", label: "Lecture du contenu" });
   const analyse = await withTimeout<AnalyseLien>(
-    llm.completeJSON<AnalyseLien>(promptAnalyseLien(titre, corps)),
+    llm.completeJSON<AnalyseLien>(promptAnalyseLien(titre, corps, loc)),
     T_ANALYSE,
     { affirmations: [], ecart_titre_contenu: { ecart: false, explication: "" } }
   );
@@ -121,11 +123,11 @@ export async function verifierLien(
   emit({ type: "etape", id: "extraction", statut: "termine", label: "Lecture du contenu" });
 
   // ── Étape 4 : MÉMOIRE COLLECTIVE (Temps 1) ────────────────────────────────
-  emit({ type: "etape", id: "corpus", statut: "en_cours", label: "Recherche dans le corpus VoiCit" });
+  emit({ type: "etape", id: "corpus", statut: "en_cours", label: "Recherche dans le corpus VoCit" });
   const requeteMemoire = `${titre}. ${corps.slice(0, 400)}`.trim();
   const match = await memoryStore.search(requeteMemoire);
   if (match) {
-    emit({ type: "etape", id: "corpus", statut: "termine", label: "Trouvé dans le corpus VoiCit" });
+    emit({ type: "etape", id: "corpus", statut: "termine", label: "Trouvé dans le corpus VoCit" });
     emit({ type: "etape", id: "web", statut: "ignore", label: "Recherche web non nécessaire" });
     emit({ type: "etape", id: "score", statut: "en_cours", label: "Calcul du score" });
     const resultat = resultatDepuisMemoire(match.rumeur, affirmationsTxt);
@@ -136,7 +138,7 @@ export async function verifierLien(
 
   // ── Étape 5 : RECHERCHE WEB (APPELS LLM 2 & 3) — cœur partagé ──────────────
   emit({ type: "etape", id: "web", statut: "en_cours", label: "Recherche de sources sur le web" });
-  const web = await evaluerParRecherche(affirmationsTxt, llm);
+  const web = await evaluerParRecherche(affirmationsTxt, llm, loc);
   signaux.push(...web.signaux);
   emit({ type: "etape", id: "web", statut: "termine", label: "Recherche de sources sur le web" });
 

@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useT } from "./LocaleProvider";
 
 /**
- * Écran d'ouverture animé (splash) — reprend le logo tornade de VoiCit.
+ * Écran d'ouverture animé (splash) — reprend le logo tornade de VoCit.
  *
  * Déroulé : les 5 bandes de la tornade apparaissent en cascade, la marque se
  * forme puis oscille, le wordmark et la baseline montent en fondu, une barre de
@@ -24,6 +25,7 @@ const BANDES = [
 ];
 
 export function SplashScreen() {
+  const t = useT();
   const [phase, setPhase] = useState<"show" | "out" | "done">("show");
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export function SplashScreen() {
         (phase === "out" ? "splash-overlay--out" : "")
       }
       role="status"
-      aria-label="Ouverture de VoiCit"
+      aria-label="Ouverture de VoCit"
       onClick={() => setPhase("out")}
     >
       {/* Halo vert doux derrière la tornade */}
@@ -52,7 +54,7 @@ export function SplashScreen() {
 
       <div className="relative flex flex-col items-center">
         <div className="splash-mark" style={{ transformOrigin: "50% 88%" }}>
-          <svg width={108} height={108} viewBox="0 0 100 100" role="img" aria-label="VoiCit">
+          <svg width={108} height={108} viewBox="0 0 100 100" role="img" aria-label="VoCit">
             <defs>
               <linearGradient id="splash-tornado" x1="0" y1="0" x2="0.4" y2="1">
                 <stop offset="0%" stopColor="#0E7A3B" />
@@ -77,7 +79,7 @@ export function SplashScreen() {
 
         <div className="splash-rise mt-4" style={{ animationDelay: "540ms" }}>
           <span className="text-3xl font-extrabold tracking-tight text-ink">
-            Voi<span className="text-brand-500">Cit</span>
+            Vo<span className="text-brand-500">Cit</span>
           </span>
         </div>
 
@@ -85,7 +87,7 @@ export function SplashScreen() {
           className="splash-rise mt-1 text-sm font-medium text-verdict-insuffisant"
           style={{ animationDelay: "780ms" }}
         >
-          Vérifier avant de partager
+          {t.tagline}
         </p>
 
         <div

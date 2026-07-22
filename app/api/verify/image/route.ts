@@ -2,6 +2,7 @@ import { getLLM } from "@/lib/llm";
 import { verifierImage } from "@/lib/pipelineImage";
 import { conseilResponsabilite } from "@/lib/verifyShared";
 import { creerFluxSSE } from "@/lib/sse";
+import { isLocale, type Locale } from "@/lib/i18n/dictionary";
 import type { VerifyResult } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -23,10 +24,12 @@ const MAX_BASE64 = 6_300_000;
 export async function POST(req: Request) {
   let image = "";
   let mimeType = "image/jpeg";
+  let locale: Locale = "fr";
   try {
     const body = await req.json();
     image = (body?.image ?? "").toString();
     if (body?.mimeType) mimeType = body.mimeType.toString();
+    if (isLocale(body?.locale)) locale = body.locale;
   } catch {
     return Response.json({ error: "Corps JSON invalide." }, { status: 400 });
   }
@@ -51,7 +54,7 @@ export async function POST(req: Request) {
         return;
       }
       const llm = getLLM();
-      const resultat = await verifierImage(base64, mimeType, emit, llm);
+      const resultat = await verifierImage(base64, mimeType, emit, llm, locale);
       emit({ type: "resultat", data: resultat });
     } catch (err) {
       const message = (err as Error).message || "Service momentanément indisponible.";

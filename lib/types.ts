@@ -1,5 +1,5 @@
 /**
- * Types partagés de VoiCit.
+ * Types partagés de VoCit.
  *
  * Frontière de responsabilité (À RESPECTER) :
  *  - Le LLM produit uniquement du CONTENU normalisé et des SIGNAUX bruts
@@ -56,8 +56,8 @@ export interface Signal {
 }
 
 export type SignalCode =
-  | "deja_dementi" // trouvé démenti dans le corpus VoiCit
-  | "deja_confirme" // trouvé confirmé dans le corpus VoiCit
+  | "deja_dementi" // trouvé démenti dans le corpus VoCit
+  | "deja_confirme" // trouvé confirmé dans le corpus VoCit
   | "contredit_source_fiable"
   | "corrobore_sources_fiables"
   | "aucune_source"

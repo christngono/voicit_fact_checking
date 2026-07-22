@@ -3,7 +3,7 @@
  *
  * Volontairement SANS compte ni base de données : l'historique n'existe que pour
  * la session en cours de l'utilisateur, sur son appareil. Rien n'est envoyé au
- * serveur, cohérent avec la contrainte « FS lecture seule » de VoiCit.
+ * serveur, cohérent avec la contrainte « FS lecture seule » de VoCit.
  */
 import type { Niveau, TypeContenu } from "./types";
 
