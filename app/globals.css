@@ -31,3 +31,105 @@ body {
 .animate-pulse-soft {
   animation: pulse-soft 1.2s ease-in-out infinite;
 }
+
+/* ── Splash screen (animation du logo à l'ouverture) ──────────────────────── */
+
+.splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 0.55s ease, visibility 0.55s ease;
+}
+.splash-overlay--out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Les bandes de la tornade apparaissent l'une après l'autre. */
+@keyframes splash-band-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.splash-band {
+  opacity: 0;
+  animation: splash-band-in 0.5s ease forwards;
+}
+
+/* La tornade se forme (échelle + rotation), puis oscille doucement. */
+@keyframes splash-mark-in {
+  0% {
+    transform: scale(0.8) rotate(-10deg);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+@keyframes splash-sway {
+  0%,
+  100% {
+    transform: rotate(-2.5deg);
+  }
+  50% {
+    transform: rotate(2.5deg);
+  }
+}
+.splash-mark {
+  animation: splash-mark-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    splash-sway 3s ease-in-out 0.7s infinite;
+}
+
+/* Le wordmark et la baseline montent en fondu. */
+@keyframes splash-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.splash-rise {
+  opacity: 0;
+  animation: splash-rise 0.6s ease forwards;
+}
+
+/* Barre de progression : la tornade se remplit une fois. */
+@keyframes splash-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.splash-progress {
+  transform-origin: left;
+  animation: splash-fill 1.6s ease 0.4s forwards;
+}
+
+/* Accessibilité : pas d'animation si l'utilisateur la refuse. */
+@media (prefers-reduced-motion: reduce) {
+  .splash-band,
+  .splash-rise {
+    opacity: 1;
+    animation: none;
+  }
+  .splash-mark {
+    animation: none;
+  }
+  .splash-progress {
+    animation: splash-fill 0.3s ease forwards;
+  }
+}

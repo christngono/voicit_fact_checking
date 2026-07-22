@@ -4,6 +4,7 @@ import "./globals.css";
 import { Wordmark } from "./components/Logo";
 import { TopMenu } from "./components/TopMenu";
 import { BottomNav } from "./components/BottomNav";
+import { SplashScreen } from "./components/SplashScreen";
 
 export const metadata: Metadata = {
   title: "VoiCit — Vérifier avant de partager",
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           calculé par des règles transparentes à partir de sources vérifiables.
         </footer>
         <BottomNav />
+        <SplashScreen />
       </body>
     </html>
   );
