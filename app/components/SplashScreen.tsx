@@ -9,16 +9,10 @@ import { useEffect, useState } from "react";
  * forme puis oscille, le wordmark et la baseline montent en fondu, une barre de
  * progression « tornade » se remplit, puis tout s'efface (~2,4 s).
  *
- * S'affiche UNE SEULE FOIS par session (mémorisé via sessionStorage) : après un
- * rechargement dans la même session, il ne se rejoue pas. Une nouvelle session
- * (nouvel onglet, navigateur rouvert) le réaffiche. La navigation interne ne le
- * rejoue jamais (le composant reste monté dans le layout).
- *
+ * S'affiche à CHAQUE ouverture réelle de l'app (tout rechargement complet). La
+ * navigation interne ne le rejoue pas : le composant reste monté dans le layout.
  * Cliquer/toucher passe l'animation. Respecte prefers-reduced-motion (voir CSS).
  */
-
-/** Clé de session : une fois vu, on ne le rejoue pas tant que la session dure. */
-const CLE_VU = "voicit:splashVu";
 
 // Tracés IDENTIQUES à ceux du logo (components/Logo.tsx) — cohérence de marque.
 const BANDES = [
@@ -33,20 +27,6 @@ export function SplashScreen() {
   const [phase, setPhase] = useState<"show" | "out" | "done">("show");
 
   useEffect(() => {
-    // Déjà vu dans cette session : on masque sans rejouer l'animation.
-    // (L'état initial reste "show" pour coïncider avec le rendu serveur et
-    //  éviter tout écart d'hydratation ; on bascule juste après le montage.)
-    let dejaVu = false;
-    try {
-      dejaVu = sessionStorage.getItem(CLE_VU) === "1";
-      if (!dejaVu) sessionStorage.setItem(CLE_VU, "1");
-    } catch {
-      /* sessionStorage indisponible : on affiche le splash normalement. */
-    }
-    if (dejaVu) {
-      setPhase("done");
-      return;
-    }
     const versSortie = setTimeout(() => setPhase("out"), 1900);
     const versFin = setTimeout(() => setPhase("done"), 2450);
     return () => {
