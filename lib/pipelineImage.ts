@@ -10,7 +10,7 @@ import {
   resultatDepuisMemoire,
 } from "./verifyShared";
 import type { Locale } from "./i18n/dictionary";
-import type { Signal, StreamEvent, VerifyResult } from "./types";
+import type { ChampExtrait, Signal, StreamEvent, VerifyResult } from "./types";
 
 /**
  * ════════════════════════════════════════════════════════════════════════════
@@ -71,7 +71,10 @@ export async function verifierImage(
   emit({ type: "etape", id: "extraction", statut: "termine", label: "Lecture de l'image (OCR)" });
 
   // Montre à l'utilisateur ce que VoCit a réellement lu sur l'image (informatif).
-  emit({ type: "extraction", ocr, description, affirmations: affirmationsTxt });
+  const champs: ChampExtrait[] = [];
+  if (ocr) champs.push({ cle: "ocr", valeur: ocr });
+  if (description) champs.push({ cle: "description", valeur: description });
+  emit({ type: "extraction", champs, affirmations: affirmationsTxt });
 
   // ── Étape 3 : signal de FORME (montage / IA) — poids faible, sans appel ─────
   emit({ type: "etape", id: "affirmations", statut: "en_cours", label: "Affirmation véhiculée" });

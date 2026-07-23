@@ -12,8 +12,10 @@ import {
   AdviceBox,
   ExtractedInfo,
   WebUnavailableNotice,
+  ScoreExplanation,
 } from "./components/ResultParts";
 import { RecentRumors } from "./components/RecentRumors";
+import { ConseilsResponsabilite } from "./components/ConseilsResponsabilite";
 import { ajouterHistorique } from "@/lib/history";
 import { useLocale } from "./components/LocaleProvider";
 
@@ -46,10 +48,9 @@ export default function Accueil() {
   const [etapes, setEtapes] = useState<EtapeUI[]>([]);
   const [resultat, setResultat] = useState<VerifyResult | null>(null);
   const [erreur, setErreur] = useState<string>("");
-  // Contenu extrait de l'image (module IMAGE) — montré en direct puis au résultat.
+  // Contenu extrait (image / lien / texte) — montré en direct puis au résultat.
   const [extraction, setExtraction] = useState<{
-    ocr: string;
-    description: string;
+    champs: { cle: string; valeur: string }[];
     affirmations: string[];
   } | null>(null);
   // Recherche web non lancée (crédit/quota API épuisé ou autre panne).
@@ -168,11 +169,7 @@ export default function Accueil() {
         )
       );
     } else if (evt.type === "extraction") {
-      setExtraction({
-        ocr: evt.ocr,
-        description: evt.description,
-        affirmations: evt.affirmations,
-      });
+      setExtraction({ champs: evt.champs, affirmations: evt.affirmations });
     } else if (evt.type === "web_indisponible") {
       setWebIndispo(evt.raison);
     } else if (evt.type === "resultat") {
@@ -373,17 +370,28 @@ export default function Accueil() {
           <SourceList sources={resultat.sources} />
           <ClaimList affirmations={resultat.affirmations} />
           <AdviceBox conseil={resultat.conseil} />
+          <ScoreExplanation
+            composantes={resultat.composantesDetail}
+            scoreComplet={resultat.scoreComplet}
+            elementsManquants={resultat.elementsManquants}
+          />
           <button
             onClick={reinitialiser}
             className="w-full rounded-xl border border-gray-200 bg-white py-3 text-sm font-medium text-gray-600 hover:bg-gray-50"
           >
             {d.home.verifyAnother}
           </button>
+          <ConseilsResponsabilite />
         </div>
       )}
 
-      {/* Accueil : rumeurs récemment démenties */}
-      {(etat === "idle" || etat === "erreur") && <RecentRumors />}
+      {/* Accueil : rumeurs récemment démenties + conseils de responsabilité */}
+      {(etat === "idle" || etat === "erreur") && (
+        <>
+          <RecentRumors />
+          <ConseilsResponsabilite />
+        </>
+      )}
     </div>
   );
 }

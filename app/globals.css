@@ -32,6 +32,43 @@ body {
   animation: pulse-soft 1.2s ease-in-out infinite;
 }
 
+/* ── Révélation progressive (effet « l'IA réfléchit et travaille ») ────────── */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-reveal {
+  opacity: 0;
+  animation: reveal-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Curseur clignotant façon « frappe » pendant l'analyse. */
+@keyframes caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.animate-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: currentColor;
+  border-radius: 1px;
+  animation: caret-blink 1s step-end infinite;
+}
+
 /* ── Splash screen (animation du logo à l'ouverture) ──────────────────────── */
 
 .splash-overlay {
@@ -131,5 +168,12 @@ body {
   }
   .splash-progress {
     animation: splash-fill 0.3s ease forwards;
+  }
+  .animate-reveal {
+    opacity: 1;
+    animation: none;
+  }
+  .animate-caret {
+    animation: none;
   }
 }

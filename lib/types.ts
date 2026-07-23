@@ -92,6 +92,15 @@ export interface VerifyResult {
   niveau: Niveau;
   origine: Origine;
   composantes: string[];
+  /** Mêmes preuves que `composantes`, mais avec leur sens (pour expliquer le score). */
+  composantesDetail?: Composante[];
+  /**
+   * false quand le score repose sur des preuves incomplètes (ex : recherche web
+   * non effectuée). Le score reste affiché, mais présenté comme provisoire.
+   */
+  scoreComplet?: boolean;
+  /** Codes i18n de ce qui manque pour un score complet (ex : "recherche_web"). */
+  elementsManquants?: string[];
   sources: Source[];
   affirmations: Affirmation[];
   conseil: string;
@@ -156,15 +165,22 @@ export interface ErreurEvent {
   message: string;
 }
 
+/** Un champ extrait, avec sa clé i18n (`cle`) et sa valeur lisible. */
+export interface ChampExtrait {
+  /** Clé de libellé i18n : ocr | description | traduction | titre | auteur |
+   *  date | domaine | fiabilite | extrait | ecart. */
+  cle: string;
+  valeur: string;
+}
+
 /**
- * Contenu réellement extrait d'une image (module IMAGE) : montré à l'utilisateur
- * pour qu'il voie ce que VoCit a lu avant de conclure. Purement informatif —
- * n'intervient pas dans le verdict (calculé par `scoring.ts`).
+ * Contenu réellement extrait d'un contenu (image, lien ou texte) : montré à
+ * l'utilisateur pour qu'il voie ce que VoCit a lu avant de conclure. Purement
+ * informatif — n'intervient pas dans le verdict (calculé par `scoring.ts`).
  */
 export interface ExtractionEvent {
   type: "extraction";
-  ocr: string;
-  description: string;
+  champs: ChampExtrait[];
   affirmations: string[];
 }
 

@@ -7,6 +7,7 @@ import { annoterSources, compterFiables } from "./reputation";
 import { withTimeout } from "./util";
 import type {
   Affirmation,
+  Composante,
   Origine,
   Rumeur,
   Signal,
@@ -138,17 +139,38 @@ export function assemblerResultat(opts: {
       ? "Les vérifications n'ont pas permis de trouver de sources exploitables sur ce contenu."
       : composantes.map((c) => c.texte).join(". ") + ".");
 
+  const rechercheIndispo = signaux.some((s) => s.code === "recherche_indisponible");
+
   return {
     verdict: niveau,
     score,
     niveau,
     origine,
     composantes: composantes.map((c) => c.texte),
+    composantesDetail: composantes,
+    scoreComplet: !rechercheIndispo,
+    elementsManquants: elementsManquants(signaux, sources),
     sources: dedupeSources(sources),
     affirmations,
     conseil: conseilResponsabilite(niveau),
     explication,
   };
+}
+
+/**
+ * Ce qui manque pour un score « complet », en codes i18n (déterministe).
+ * Sert à l'utilisateur : « voici le score, mais il aurait été plus fiable avec… ».
+ */
+export function elementsManquants(signaux: Signal[], sources: Source[]): string[] {
+  const manquants: string[] = [];
+  if (signaux.some((s) => s.code === "recherche_indisponible")) {
+    manquants.push("recherche_web");
+  }
+  const aSourceFiable = sources.some(
+    (s) => s.fiabilite === "fiable" || s.fiabilite === "officiel"
+  );
+  if (!aSourceFiable) manquants.push("sources_fiables");
+  return manquants;
 }
 
 /**
@@ -196,6 +218,9 @@ export function resultatDepuisMemoire(
     niveau: base.niveau,
     origine: "memoire",
     composantes: base.composantes.map((c) => c.texte),
+    composantesDetail: base.composantes as Composante[],
+    scoreComplet: true,
+    elementsManquants: [],
     sources: annoterSources(rumeur.sources),
     affirmations: affirmationsTxt.map((texte) => ({
       texte,

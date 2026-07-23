@@ -136,12 +136,76 @@ const fr = {
   },
 
   extraction: {
-    title: "Ce que VoCit a lu sur l'image",
-    ocrLabel: "Texte détecté (OCR)",
-    descLabel: "Description visuelle",
+    title: "Ce que VoCit a lu",
     claimsLabel: "Affirmations véhiculées",
-    empty: "Aucun texte lisible détecté sur l'image.",
+    empty: "Aucun élément lisible n'a pu être extrait.",
     note: "Éléments extraits automatiquement, à titre indicatif. Ils ne décident pas du verdict.",
+    champs: {
+      ocr: "Texte détecté (OCR)",
+      description: "Description visuelle",
+      traduction: "Contenu (traduit si nécessaire)",
+      titre: "Titre de la page",
+      auteur: "Auteur",
+      date: "Date de publication",
+      domaine: "Domaine",
+      fiabilite: "Fiabilité du domaine",
+      extrait: "Extrait du contenu",
+      ecart: "Écart entre le titre et le contenu",
+    },
+  },
+
+  scoreInfo: {
+    title: "Comment ce score est calculé",
+    intro:
+      "VoCit ne demande jamais à l'IA « est-ce vrai ? ». Le score part d'une base neutre, puis chaque indice vérifié ajoute ou retire des points selon une règle transparente et identique pour tous.",
+    positive: "En faveur de la fiabilité",
+    negative: "En défaveur",
+    neutral: "À noter",
+    provisional: "Score provisoire — preuves incomplètes",
+    complete: "Score établi sur des preuves complètes",
+    missingTitle: "Ce qui manque pour un score complet",
+    missingIntro: "Le score ci-dessus reste valable, mais il serait plus solide avec :",
+    missing: {
+      recherche_web: "Une recherche web pour croiser les sources (non effectuée)",
+      sources_fiables: "Au moins une source fiable ou officielle",
+    } as Record<string, string>,
+  },
+
+  conseilsResp: {
+    title: "Renforcer sa responsabilité numérique",
+    sub: "Des réflexes simples pour reconnaître et stopper la désinformation.",
+    items: [
+      {
+        titre: "Vérifiez la source",
+        corps:
+          "Avant de croire ou de partager, demandez-vous qui publie. Un site inconnu, une adresse bizarre ou l'absence d'auteur doivent alerter.",
+      },
+      {
+        titre: "Méfiez-vous de l'émotion forte",
+        corps:
+          "La désinformation joue sur la peur, la colère ou l'indignation. Si un contenu vous fait réagir très fort, prenez le temps de vérifier avant de réagir.",
+      },
+      {
+        titre: "Recoupez plusieurs sources",
+        corps:
+          "Une information vraie est en général reprise par plusieurs médias fiables. Si une seule page en parle, restez prudent.",
+      },
+      {
+        titre: "Attention aux images et vidéos",
+        corps:
+          "Une photo peut être ancienne, sortie de son contexte ou fabriquée par IA. Cherchez l'origine de l'image avant de la croire.",
+      },
+      {
+        titre: "Regardez toujours la date",
+        corps:
+          "De vieilles informations ressortent souvent comme si elles étaient récentes. Vérifiez la date de publication avant de relayer.",
+      },
+      {
+        titre: "Dans le doute, ne partagez pas",
+        corps:
+          "Partager une fausse information, même sans le vouloir, cause du tort. Si vous n'êtes pas sûr, ne relayez pas : vérifiez ou signalez.",
+      },
+    ],
   },
 
   webNotice: {
@@ -410,12 +474,76 @@ const en: typeof fr = {
   },
 
   extraction: {
-    title: "What VoCit read on the image",
-    ocrLabel: "Detected text (OCR)",
-    descLabel: "Visual description",
+    title: "What VoCit read",
     claimsLabel: "Conveyed claims",
-    empty: "No readable text detected on the image.",
+    empty: "No readable element could be extracted.",
     note: "Automatically extracted, for information only. It does not decide the verdict.",
+    champs: {
+      ocr: "Detected text (OCR)",
+      description: "Visual description",
+      traduction: "Content (translated if needed)",
+      titre: "Page title",
+      auteur: "Author",
+      date: "Publication date",
+      domaine: "Domain",
+      fiabilite: "Domain reliability",
+      extrait: "Content excerpt",
+      ecart: "Gap between title and content",
+    },
+  },
+
+  scoreInfo: {
+    title: "How this score is computed",
+    intro:
+      "VoCit never asks the AI “is this true?”. The score starts from a neutral baseline, then each verified signal adds or removes points under a transparent rule that is the same for everyone.",
+    positive: "In favour of reliability",
+    negative: "Against",
+    neutral: "Worth noting",
+    provisional: "Provisional score — incomplete evidence",
+    complete: "Score based on complete evidence",
+    missingTitle: "What is missing for a complete score",
+    missingIntro: "The score above still holds, but it would be stronger with:",
+    missing: {
+      recherche_web: "A web search to cross-check sources (not performed)",
+      sources_fiables: "At least one reliable or official source",
+    } as Record<string, string>,
+  },
+
+  conseilsResp: {
+    title: "Strengthen your digital responsibility",
+    sub: "Simple reflexes to spot and stop disinformation.",
+    items: [
+      {
+        titre: "Check the source",
+        corps:
+          "Before believing or sharing, ask who is publishing. An unknown site, an odd address or a missing author should raise a flag.",
+      },
+      {
+        titre: "Beware of strong emotion",
+        corps:
+          "Disinformation plays on fear, anger or outrage. If a piece of content makes you react strongly, take time to verify before reacting.",
+      },
+      {
+        titre: "Cross-check several sources",
+        corps:
+          "True information is usually reported by several reliable outlets. If only one page mentions it, stay cautious.",
+      },
+      {
+        titre: "Watch out for images and videos",
+        corps:
+          "A photo may be old, taken out of context or AI-generated. Look for the origin of the image before believing it.",
+      },
+      {
+        titre: "Always check the date",
+        corps:
+          "Old information often resurfaces as if it were recent. Check the publication date before relaying it.",
+      },
+      {
+        titre: "When in doubt, don't share",
+        corps:
+          "Sharing false information, even unintentionally, causes harm. If you are not sure, don't relay it: verify or report it.",
+      },
+    ],
   },
 
   webNotice: {

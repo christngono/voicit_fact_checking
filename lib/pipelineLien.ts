@@ -17,7 +17,7 @@ import {
   resultatDepuisMemoire,
 } from "./verifyShared";
 import type { Locale } from "./i18n/dictionary";
-import type { Signal, Source, StreamEvent, VerifyResult } from "./types";
+import type { ChampExtrait, Signal, Source, StreamEvent, VerifyResult } from "./types";
 
 /**
  * ════════════════════════════════════════════════════════════════════════════
@@ -121,6 +121,23 @@ export async function verifierLien(
     });
   }
   emit({ type: "etape", id: "extraction", statut: "termine", label: "Lecture du contenu" });
+
+  // Montre à l'utilisateur ce que VoCit a lu sur la page (informatif, hors verdict).
+  const domaine = extraireDomaine(page.urlFinale || page.url);
+  const champs: ChampExtrait[] = [];
+  if (page.titre) champs.push({ cle: "titre", valeur: page.titre });
+  if (page.auteur) champs.push({ cle: "auteur", valeur: page.auteur });
+  if (page.datePublication) champs.push({ cle: "date", valeur: page.datePublication });
+  if (domaine) champs.push({ cle: "domaine", valeur: domaine });
+  champs.push({ cle: "fiabilite", valeur: fiabilite ?? "inconnu" });
+  if (corps) champs.push({ cle: "extrait", valeur: corps.slice(0, 320) });
+  if (analyse.ecart_titre_contenu?.ecart) {
+    champs.push({
+      cle: "ecart",
+      valeur: analyse.ecart_titre_contenu.explication || "Oui",
+    });
+  }
+  emit({ type: "extraction", champs, affirmations: affirmationsTxt });
 
   // ── Étape 4 : MÉMOIRE COLLECTIVE (Temps 1) ────────────────────────────────
   emit({ type: "etape", id: "corpus", statut: "en_cours", label: "Recherche dans le corpus VoCit" });

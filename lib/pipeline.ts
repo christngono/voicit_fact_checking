@@ -10,7 +10,7 @@ import {
   evaluerParRecherche,
   resultatDepuisMemoire,
 } from "./verifyShared";
-import type { Signal, StreamEvent, VerifyResult } from "./types";
+import type { ChampExtrait, Signal, StreamEvent, VerifyResult } from "./types";
 
 /**
  * ════════════════════════════════════════════════════════════════════════════
@@ -61,6 +61,13 @@ export async function verifierTexte(
 
   emit({ type: "etape", id: "affirmations", statut: "en_cours", label: "Identification des affirmations" });
   emit({ type: "etape", id: "affirmations", statut: "termine", label: "Identification des affirmations" });
+
+  // Montre ce que VoCit a compris du texte (traduction + affirmations) — informatif.
+  const champsTexte: ChampExtrait[] = [];
+  if (contenuFr && contenuFr !== contenu.trim()) {
+    champsTexte.push({ cle: "traduction", valeur: contenuFr });
+  }
+  emit({ type: "extraction", champs: champsTexte, affirmations: affirmationsTxt });
 
   // ── Étape 3 : MÉMOIRE COLLECTIVE (Temps 1, sans web, sans LLM) ─────────────
   emit({ type: "etape", id: "corpus", statut: "en_cours", label: "Recherche dans le corpus VoCit" });
