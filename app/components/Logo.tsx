@@ -33,15 +33,35 @@ export function TornadoMark({ size = 34 }: { size?: number }) {
   );
 }
 
-export function Wordmark() {
+/**
+ * Logo officiel VoCit (fichier fourni `public/logo-vocit.svg`).
+ * SVG figé (image embarquée) → on l'affiche via <img>, dimensionné par la hauteur.
+ * Rapport d'aspect natif 482×302 ≈ 1,6.
+ */
+export function LogoImage({
+  height = 30,
+  className = "",
+  priority = false,
+}: {
+  height?: number;
+  className?: string;
+  priority?: boolean;
+}) {
   return (
-    <div className="flex items-center gap-2">
-      <TornadoMark size={28} />
-      <div className="leading-none">
-        <span className="text-lg font-extrabold tracking-tight text-ink">
-          Vo<span className="text-brand-500">Cit</span>
-        </span>
-      </div>
-    </div>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/logo-vocit.svg"
+      alt="VoCit"
+      height={height}
+      style={{ height, width: "auto" }}
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
+      className={"select-none " + className}
+    />
   );
+}
+
+/** Marque affichée dans le header : le logo officiel. */
+export function Wordmark() {
+  return <LogoImage height={30} priority className="shrink-0" />;
 }

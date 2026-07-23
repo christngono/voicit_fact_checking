@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { StreamEvent, TypeContenu, VerifyResult } from "@/lib/types";
+import { lireNumero } from "@/lib/user";
 import { Hero } from "./components/Hero";
 import { ProgressSteps, construireEtapes, type EtapeUI } from "./components/ProgressSteps";
 import { VerdictCard } from "./components/VerdictCard";
@@ -55,7 +56,12 @@ export default function Accueil() {
   } | null>(null);
   // Recherche web non lancée (crédit/quota API épuisé ou autre panne).
   const [webIndispo, setWebIndispo] = useState<"quota" | "erreur" | null>(null);
+  // Numéro saisi à l'onboarding (localStorage) — lu côté client pour éviter tout
+  // écart d'hydratation, puis affiché en bienvenue sur la page principale.
+  const [numero, setNumero] = useState<string | null>(null);
   const fichierRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => setNumero(lireNumero()), []);
 
   const estLien = onglet === "lien";
   const estImage = onglet === "image";
@@ -204,6 +210,18 @@ export default function Accueil() {
 
   return (
     <div>
+      {/* Bienvenue : le numéro saisi à l'onboarding réapparaît sur la page principale */}
+      {surAccueil && numero && (
+        <div className="mb-4 flex items-center gap-2">
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50/70 px-3 py-1.5 text-xs font-medium text-brand-700">
+            <span className="grid h-5 w-5 place-items-center rounded-full bg-brand-500 text-[10px] font-bold text-white">
+              👋
+            </span>
+            {d.home.greeting} · {numero}
+          </span>
+        </div>
+      )}
+
       {/* Hero narratif — sur l'accueil uniquement, pour rester focalisé pendant l'analyse */}
       {surAccueil && <Hero />}
 

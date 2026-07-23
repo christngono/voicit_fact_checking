@@ -14,9 +14,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Réserve verticale pour l'encoche mobile */
+/* Réserve verticale pour l'encoche mobile + motif « afritude » incrusté en fond.
+   Un lavis quasi opaque de la couleur de fond est posé PAR-DESSUS le motif tuilé
+   pour ne garder qu'une trace discrète (filigrane). Fixe = effet papier peint. */
 body {
   min-height: 100dvh;
+  background-color: #f7f8fa;
+  background-image: linear-gradient(
+      rgba(247, 248, 250, 0.955),
+      rgba(247, 248, 250, 0.955)
+    ),
+    url("/motif-afritude.avif");
+  background-repeat: no-repeat, repeat;
+  background-size: cover, 360px auto;
+  background-attachment: fixed, fixed;
 }
 
 @keyframes pulse-soft {

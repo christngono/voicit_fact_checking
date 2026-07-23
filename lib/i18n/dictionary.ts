@@ -47,7 +47,41 @@ const fr = {
     en: "English",
   },
 
+  onboarding: {
+    skip: "Passer",
+    next: "Continuer",
+    back: "Retour",
+    start: "Commencer",
+    langTitle: "Votre langue",
+    langSub: "Vous pourrez la changer à tout moment.",
+    phoneTitle: "Votre numéro",
+    phoneSub:
+      "Il reste sur cet appareil, n'est envoyé à personne, et sert à personnaliser votre espace.",
+    phoneLabel: "Numéro de téléphone",
+    phonePlaceholder: "6XX XX XX XX",
+    phoneHint: "Numéro camerounais (+237).",
+    phoneError: "Entrez un numéro camerounais valide (ex. 6XX XX XX XX).",
+    slides: [
+      {
+        titre: "Vérifiez un message",
+        corps:
+          "Collez un texte douteux — offre trop belle, rumeur, chaîne WhatsApp — et VoCit vous répond avec un verdict, les preuves et les sources.",
+      },
+      {
+        titre: "Analysez un lien",
+        corps:
+          "Un article suspect ? VoCit ouvre la page, lit le titre, l'auteur et la date, vérifie le domaine et cherche des sources avant de conclure.",
+      },
+      {
+        titre: "Décryptez une image",
+        corps:
+          "Capture, affiche ou photo : VoCit lit le texte incrusté (OCR), repère un éventuel montage et vérifie les affirmations véhiculées.",
+      },
+    ],
+  },
+
   home: {
+    greeting: "Bonjour",
     helpTitle: "Comment ça marche —",
     helpBody:
       "choisissez le type de contenu ci-dessous (un texte, un lien d'article, une image… bientôt une vidéo ou un numéro), collez-le ou importez-le, puis touchez Vérifier. VoCit vous répond en quelques secondes avec un verdict, les preuves et les sources consultées. En cas de doute, ne partagez pas.",
@@ -411,7 +445,41 @@ const en: typeof fr = {
     en: "English",
   },
 
+  onboarding: {
+    skip: "Skip",
+    next: "Continue",
+    back: "Back",
+    start: "Get started",
+    langTitle: "Your language",
+    langSub: "You can change it at any time.",
+    phoneTitle: "Your number",
+    phoneSub:
+      "It stays on this device, is sent to no one, and is used to personalise your space.",
+    phoneLabel: "Phone number",
+    phonePlaceholder: "6XX XX XX XX",
+    phoneHint: "Cameroonian number (+237).",
+    phoneError: "Enter a valid Cameroonian number (e.g. 6XX XX XX XX).",
+    slides: [
+      {
+        titre: "Check a message",
+        corps:
+          "Paste a doubtful text — an offer too good to be true, a rumor, a WhatsApp chain — and VoCit replies with a verdict, the evidence and the sources.",
+      },
+      {
+        titre: "Analyse a link",
+        corps:
+          "A suspicious article? VoCit opens the page, reads the title, author and date, checks the domain and searches for sources before concluding.",
+      },
+      {
+        titre: "Decode an image",
+        corps:
+          "Screenshot, poster or photo: VoCit reads the embedded text (OCR), spots possible tampering and checks the claims it conveys.",
+      },
+    ],
+  },
+
   home: {
+    greeting: "Hello",
     helpTitle: "How it works —",
     helpBody:
       "choose the type of content below (a text, an article link, an image… soon a video or a phone number), paste or upload it, then tap Check. VoCit answers within seconds with a verdict, the evidence and the sources it consulted. When in doubt, don't share.",

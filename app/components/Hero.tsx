@@ -54,7 +54,7 @@ export function Hero() {
     <section
       aria-roledescription="carrousel"
       aria-label={t.hero.label}
-      className="relative mb-5 h-56 select-none overflow-hidden rounded-2xl shadow-card sm:h-72 md:h-80"
+      className="relative mb-5 h-56 select-none overflow-hidden rounded-2xl shadow-card sm:h-72 md:h-80 lg:left-1/2 lg:h-96 lg:w-[min(58rem,92vw)] lg:-translate-x-1/2"
       onMouseEnter={() => setPause(true)}
       onMouseLeave={() => setPause(false)}
       onTouchStart={(e) => onStart(e.touches[0].clientX)}

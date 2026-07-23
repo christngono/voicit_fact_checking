@@ -4,7 +4,7 @@
 > relire tout le contexte. **Lis ce fichier en premier.** Détails produit dans
 > [README.md](README.md).
 
-Dernière mise à jour : **2026-07-22**
+Dernière mise à jour : **2026-07-23**
 
 ---
 
@@ -43,6 +43,7 @@ Corollaires :
 | — | **Transparence extraction image** (OCR/description/affirmations affichés) + **bandeau « crédit API épuisé »** quand la recherche web ne peut pas se lancer | ✅ FAIT (demandé en cours) |
 | — | **Extraction affichée pour les 3 modules** (Texte/Lien/Image, événement `extraction` générique à `champs`) + **carte « Comment ce score est calculé »** (preuves par sens + éléments manquants) + **révélation progressive** (`animate-reveal`) + **carrousel de conseils** de responsabilité numérique (6, auto-rotatif) | ✅ FAIT (demandé en cours) |
 | — | **Barre basse recomposée** (Vérifier · Radar · Conseils · Rumeurs, liseré dégradé tornade + actif jaune) ; Historique + À propos déplacés dans le menu ⋯ ; nouvelle page `/conseils` | ✅ FAIT (demandé en cours) |
+| — | **Onboarding d'ouverture** (remplace l'écran de choix de langue) : 3 diapos présentant Texte/Lien/Image (image + message + « Continuer »), puis étape **langue + numéro de téléphone** ; **logo officiel** (`public/logo-vocit.svg`) sur header/splash/onboarding ; **header élargi desktop** (`lg:max-w-5xl`) avec **bouton « Vérifier » toujours visible** + **sélecteur de langue** (`LangSwitch`, modifiable à tout moment) ; **Hero élargi desktop** (`lg:w-[min(58rem,92vw)]`, centré) ; **motif afritude** en filigrane de fond (`public/motif-afritude.avif`) ; numéro (localStorage, `lib/user.ts`) réaffiché en bienvenue sur l'accueil | ✅ FAIT (demandé en cours) |
 | — | **Module RADAR** : carte SVG interactive des 10 régions (contours réels ADM1 geoBoundaries, projetés à la main sans librairie → `data/cameroon-regions.json`), choroplèthe par volume (`data/radar.json` démo), survol/tooltip/clic, `RegionDetailPanel` (panneau desktop / tiroir mobile + mini-graphique), Top 3, légende, bandeau démo, i18n FR/EN. **Données de démonstration.** | ✅ FAIT (demandé en cours) |
 
 **Méthode de travail convenue avec l'utilisateur : s'arrêter après chaque étape
