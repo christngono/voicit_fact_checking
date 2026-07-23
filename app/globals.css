@@ -48,6 +48,19 @@ body {
   animation: reveal-up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
+/* Tiroir de détail Radar qui remonte du bas (mobile). */
+@keyframes drawer-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-drawer {
+  animation: drawer-up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
 /* Curseur clignotant façon « frappe » pendant l'analyse. */
 @keyframes caret-blink {
   0%,
@@ -171,6 +184,9 @@ body {
   }
   .animate-reveal {
     opacity: 1;
+    animation: none;
+  }
+  .animate-drawer {
     animation: none;
   }
   .animate-caret {

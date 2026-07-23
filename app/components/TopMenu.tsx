@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { IconPlus, IconRadar, IconFlag, IconMail } from "./Icons";
+import { IconPlus, IconHistorique, IconInfo, IconFlag, IconMail } from "./Icons";
 import { useT } from "./LocaleProvider";
 
 type Entree = {
   href: string;
-  key: "radar" | "contester" | "contact";
-  descKey: "radarDesc" | "contesterDesc" | "contactDesc";
+  key: "historique" | "apropos" | "contester" | "contact";
+  descKey: "historiqueDesc" | "aproposDesc" | "contesterDesc" | "contactDesc";
   Icon: (p: { className?: string }) => JSX.Element;
   bientot?: boolean;
 };
@@ -19,7 +19,8 @@ type Entree = {
  * SANS jamais y cacher « Vérifier » (qui reste dans la barre basse).
  */
 const ENTREES: Entree[] = [
-  { href: "/radar", key: "radar", descKey: "radarDesc", Icon: IconRadar, bientot: true },
+  { href: "/historique", key: "historique", descKey: "historiqueDesc", Icon: IconHistorique },
+  { href: "/a-propos", key: "apropos", descKey: "aproposDesc", Icon: IconInfo },
   { href: "/contester", key: "contester", descKey: "contesterDesc", Icon: IconFlag },
   { href: "/contact", key: "contact", descKey: "contactDesc", Icon: IconMail },
 ];

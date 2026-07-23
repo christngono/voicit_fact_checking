@@ -63,6 +63,17 @@ export function IconInfo({ className, size = 22 }: IconProps) {
   );
 }
 
+/** Conseils — ampoule (idée, pédagogie). */
+export function IconConseils({ className, size = 22 }: IconProps) {
+  return (
+    <svg {...base(size, className)}>
+      <path d="M9 18h6" />
+      <path d="M10 21h4" />
+      <path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.8 1 .8 1.6v.5h5.4v-.5c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3z" />
+    </svg>
+  );
+}
+
 /** Menu secondaire — trois points. */
 export function IconPlus({ className, size = 22 }: IconProps) {
   return (
@@ -92,6 +103,15 @@ export function IconFlag({ className, size = 22 }: IconProps) {
     <svg {...base(size, className)}>
       <path d="M6 21V4" />
       <path d="M6 4.5h10.5l-2 3.5 2 3.5H6" />
+    </svg>
+  );
+}
+
+/** Fermer — croix. */
+export function IconClose({ className, size = 22 }: IconProps) {
+  return (
+    <svg {...base(size, className)}>
+      <path d="M6 6l12 12M18 6L6 18" />
     </svg>
   );
 }

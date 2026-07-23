@@ -23,15 +23,17 @@ const fr = {
 
   nav: {
     verifier: "Vérifier",
-    historique: "Historique",
+    radar: "Radar",
+    conseils: "Conseils",
     rumeurs: "Rumeurs",
-    apropos: "À propos",
   },
 
   menu: {
     more: "Plus d'options",
-    radar: "Radar",
-    radarDesc: "Cartographie de circulation des rumeurs",
+    historique: "Historique",
+    historiqueDesc: "Vos vérifications de cette session",
+    apropos: "À propos",
+    aproposDesc: "Qui est VoCit et comment ça marche",
     contester: "Contester un verdict",
     contesterDesc: "Signaler un verdict que vous jugez inexact",
     contact: "Contact / Partenaires",
@@ -259,10 +261,34 @@ const fr = {
 
   radar: {
     title: "Radar",
-    sub: "Cartographie de la circulation des rumeurs dans le cyberespace camerounais.",
-    soon: "Bientôt disponible",
-    body: "Le Radar montrera comment une rumeur circule : où elle apparaît, comment elle se propage, et à quel moment elle a été démentie. Ce module est en préparation.",
-    verifyBtn: "Vérifier un contenu",
+    sub: "Cartographie des signalements par région du Cameroun.",
+    demoBanner: "Données de démonstration",
+    demoNote: "Chiffres fictifs, pour illustrer le fonctionnement du Radar.",
+    top3Title: "Régions les plus actives",
+    legendTitle: "Volume de signalements",
+    legendLess: "Peu",
+    legendMore: "Beaucoup",
+    legendNoData: "Aucune donnée",
+    hint: "Touchez une région de la carte pour voir son détail.",
+    credit: "Contours administratifs : geoBoundaries (CC BY)",
+    reports: "signalements",
+    reportsRecensed: "recensés",
+    updatedOn: "Mis à jour le",
+    themeLabel: "Thème principal",
+    evolutionTitle: "Évolution des signalements",
+    noHistory: "Pas d'historique disponible.",
+    close: "Fermer le détail",
+    noData: "aucune donnée",
+    types: {
+      escroquerie: "Escroquerie",
+      désinformation: "Désinformation",
+      usurpation: "Usurpation d'identité",
+    } as Record<string, string>,
+  },
+
+  conseilsPage: {
+    title: "Conseils",
+    sub: "Des réflexes simples pour reconnaître et stopper la désinformation au quotidien.",
   },
 
   contester: {
@@ -361,15 +387,17 @@ const en: typeof fr = {
 
   nav: {
     verifier: "Check",
-    historique: "History",
+    radar: "Radar",
+    conseils: "Tips",
     rumeurs: "Rumors",
-    apropos: "About",
   },
 
   menu: {
     more: "More options",
-    radar: "Radar",
-    radarDesc: "Mapping how rumors circulate",
+    historique: "History",
+    historiqueDesc: "Your checks from this session",
+    apropos: "About",
+    aproposDesc: "Who VoCit is and how it works",
     contester: "Contest a verdict",
     contesterDesc: "Report a verdict you find inaccurate",
     contact: "Contact / Partners",
@@ -597,10 +625,34 @@ const en: typeof fr = {
 
   radar: {
     title: "Radar",
-    sub: "Mapping how rumors circulate across Cameroon's cyberspace.",
-    soon: "Coming soon",
-    body: "The Radar will show how a rumor circulates: where it appears, how it spreads, and when it was debunked. This module is in preparation.",
-    verifyBtn: "Check an item",
+    sub: "Reports mapped by region across Cameroon.",
+    demoBanner: "Demonstration data",
+    demoNote: "Fictional figures, to illustrate how the Radar works.",
+    top3Title: "Most active regions",
+    legendTitle: "Report volume",
+    legendLess: "Low",
+    legendMore: "High",
+    legendNoData: "No data",
+    hint: "Tap a region on the map to see its details.",
+    credit: "Administrative boundaries: geoBoundaries (CC BY)",
+    reports: "reports",
+    reportsRecensed: "recorded",
+    updatedOn: "Updated on",
+    themeLabel: "Main theme",
+    evolutionTitle: "Reports over time",
+    noHistory: "No history available.",
+    close: "Close details",
+    noData: "no data",
+    types: {
+      escroquerie: "Scam",
+      désinformation: "Disinformation",
+      usurpation: "Impersonation",
+    } as Record<string, string>,
+  },
+
+  conseilsPage: {
+    title: "Tips",
+    sub: "Simple reflexes to spot and stop disinformation in everyday life.",
   },
 
   contester: {

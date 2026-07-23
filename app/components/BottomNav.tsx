@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IconVerifier, IconHistorique, IconRumeurs, IconInfo } from "./Icons";
+import { IconVerifier, IconRadar, IconConseils, IconRumeurs } from "./Icons";
 import { useT } from "./LocaleProvider";
 
 type Item = {
   href: string;
-  key: "verifier" | "historique" | "rumeurs" | "apropos";
+  key: "verifier" | "radar" | "conseils" | "rumeurs";
   Icon: (p: { className?: string }) => JSX.Element;
 };
 
@@ -18,9 +18,9 @@ type Item = {
  */
 const ITEMS: Item[] = [
   { href: "/", key: "verifier", Icon: IconVerifier },
-  { href: "/historique", key: "historique", Icon: IconHistorique },
+  { href: "/radar", key: "radar", Icon: IconRadar },
+  { href: "/conseils", key: "conseils", Icon: IconConseils },
   { href: "/rumeurs", key: "rumeurs", Icon: IconRumeurs },
-  { href: "/a-propos", key: "apropos", Icon: IconInfo },
 ];
 
 export function BottomNav() {
@@ -30,8 +30,10 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navigation principale"
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-black/5 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur"
+      className="fixed inset-x-0 bottom-0 z-30 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur"
     >
+      {/* Liseré signature : le dégradé de la tornade, rappel de la marque */}
+      <div className="h-[3px] w-full bg-tornado" />
       <ul className="mx-auto grid max-w-2xl grid-cols-4">
         {ITEMS.map(({ href, key, Icon }) => {
           const actif = href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -41,11 +43,20 @@ export function BottomNav() {
                 href={href}
                 aria-current={actif ? "page" : undefined}
                 className={
-                  "flex flex-col items-center gap-0.5 py-2 text-[11px] font-medium transition " +
-                  (actif ? "text-brand-500" : "text-gray-400 hover:text-ink")
+                  "flex flex-col items-center gap-1 pb-2 pt-1.5 text-[11px] font-medium transition " +
+                  (actif ? "text-ink" : "text-gray-400 hover:text-ink")
                 }
               >
-                <Icon className="h-[22px] w-[22px]" />
+                <span
+                  className={
+                    "grid h-9 w-9 place-items-center rounded-full transition " +
+                    (actif
+                      ? "bg-accent-yellow text-ink shadow-sm ring-1 ring-black/5"
+                      : "text-gray-400")
+                  }
+                >
+                  <Icon className="h-[22px] w-[22px]" />
+                </span>
                 <span>{d.nav[key]}</span>
               </Link>
             </li>

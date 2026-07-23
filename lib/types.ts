@@ -110,6 +110,32 @@ export interface VerifyResult {
   explication?: string;
 }
 
+// ── Radar (cartographie des signalements par région) ────────────────────────
+
+/** Un point d'évolution temporelle du nombre de signalements. */
+export interface HistoriquePoint {
+  date: string; // ISO YYYY-MM-DD
+  nb: number;
+}
+
+/** Signalements agrégés pour une région (data/radar.json). Peut être absent
+ *  d'une région : la carte affiche alors la région en gris neutre. */
+export interface RegionData {
+  region: string;
+  nbSignalements: number;
+  typeDominant: string;
+  themePrincipal: string;
+  derniereMaj: string;
+  historique: HistoriquePoint[];
+}
+
+/** Contour géographique d'une région (data/cameroon-regions.json). */
+export interface RegionGeo {
+  id: string;
+  name: string;
+  path: string;
+}
+
 // ── Corpus (mémoire collective) ─────────────────────────────────────────────
 
 export interface Rumeur {

@@ -1,0 +1,132 @@
+[
+  {
+    "region": "Littoral",
+    "nbSignalements": 142,
+    "typeDominant": "escroquerie",
+    "themePrincipal": "Faux dépôt Mobile Money",
+    "derniereMaj": "2026-07-21",
+    "historique": [
+      { "date": "2026-06-29", "nb": 22 },
+      { "date": "2026-07-06", "nb": 31 },
+      { "date": "2026-07-13", "nb": 44 },
+      { "date": "2026-07-20", "nb": 45 }
+    ]
+  },
+  {
+    "region": "Centre",
+    "nbSignalements": 118,
+    "typeDominant": "désinformation",
+    "themePrincipal": "Faux communiqués gouvernementaux",
+    "derniereMaj": "2026-07-21",
+    "historique": [
+      { "date": "2026-06-29", "nb": 18 },
+      { "date": "2026-07-06", "nb": 26 },
+      { "date": "2026-07-13", "nb": 38 },
+      { "date": "2026-07-20", "nb": 36 }
+    ]
+  },
+  {
+    "region": "Ouest",
+    "nbSignalements": 76,
+    "typeDominant": "escroquerie",
+    "themePrincipal": "Arnaque au faux recrutement",
+    "derniereMaj": "2026-07-20",
+    "historique": [
+      { "date": "2026-06-29", "nb": 12 },
+      { "date": "2026-07-06", "nb": 19 },
+      { "date": "2026-07-13", "nb": 21 },
+      { "date": "2026-07-20", "nb": 24 }
+    ]
+  },
+  {
+    "region": "Extrême-Nord",
+    "nbSignalements": 63,
+    "typeDominant": "désinformation",
+    "themePrincipal": "Fausses alertes d'attaque",
+    "derniereMaj": "2026-07-19",
+    "historique": [
+      { "date": "2026-06-29", "nb": 9 },
+      { "date": "2026-07-06", "nb": 14 },
+      { "date": "2026-07-13", "nb": 22 },
+      { "date": "2026-07-20", "nb": 18 }
+    ]
+  },
+  {
+    "region": "Nord-Ouest",
+    "nbSignalements": 54,
+    "typeDominant": "désinformation",
+    "themePrincipal": "Rumeurs sécuritaires hors contexte",
+    "derniereMaj": "2026-07-20",
+    "historique": [
+      { "date": "2026-06-29", "nb": 8 },
+      { "date": "2026-07-06", "nb": 11 },
+      { "date": "2026-07-13", "nb": 17 },
+      { "date": "2026-07-20", "nb": 18 }
+    ]
+  },
+  {
+    "region": "Sud-Ouest",
+    "nbSignalements": 48,
+    "typeDominant": "désinformation",
+    "themePrincipal": "Photos anciennes présentées comme récentes",
+    "derniereMaj": "2026-07-18",
+    "historique": [
+      { "date": "2026-06-29", "nb": 7 },
+      { "date": "2026-07-06", "nb": 10 },
+      { "date": "2026-07-13", "nb": 15 },
+      { "date": "2026-07-20", "nb": 16 }
+    ]
+  },
+  {
+    "region": "Nord",
+    "nbSignalements": 34,
+    "typeDominant": "désinformation",
+    "themePrincipal": "Intox sur la santé et les vaccins",
+    "derniereMaj": "2026-07-17",
+    "historique": [
+      { "date": "2026-06-29", "nb": 5 },
+      { "date": "2026-07-06", "nb": 8 },
+      { "date": "2026-07-13", "nb": 10 },
+      { "date": "2026-07-20", "nb": 11 }
+    ]
+  },
+  {
+    "region": "Adamaoua",
+    "nbSignalements": 21,
+    "typeDominant": "escroquerie",
+    "themePrincipal": "Faux gains de loterie par SMS",
+    "derniereMaj": "2026-07-16",
+    "historique": [
+      { "date": "2026-06-29", "nb": 3 },
+      { "date": "2026-07-06", "nb": 5 },
+      { "date": "2026-07-13", "nb": 6 },
+      { "date": "2026-07-20", "nb": 7 }
+    ]
+  },
+  {
+    "region": "Est",
+    "nbSignalements": 17,
+    "typeDominant": "escroquerie",
+    "themePrincipal": "Faux agents miniers",
+    "derniereMaj": "2026-07-15",
+    "historique": [
+      { "date": "2026-06-29", "nb": 2 },
+      { "date": "2026-07-06", "nb": 4 },
+      { "date": "2026-07-13", "nb": 5 },
+      { "date": "2026-07-20", "nb": 6 }
+    ]
+  },
+  {
+    "region": "Sud",
+    "nbSignalements": 12,
+    "typeDominant": "usurpation",
+    "themePrincipal": "Usurpation d'identité d'élus locaux",
+    "derniereMaj": "2026-07-14",
+    "historique": [
+      { "date": "2026-06-29", "nb": 2 },
+      { "date": "2026-07-06", "nb": 3 },
+      { "date": "2026-07-13", "nb": 3 },
+      { "date": "2026-07-20", "nb": 4 }
+    ]
+  }
+]

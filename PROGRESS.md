@@ -42,6 +42,8 @@ Corollaires :
 | — | **i18n FR/EN** : écran de choix après splash + interface bilingue + explications LLM localisées | ✅ FAIT (demandé en cours) |
 | — | **Transparence extraction image** (OCR/description/affirmations affichés) + **bandeau « crédit API épuisé »** quand la recherche web ne peut pas se lancer | ✅ FAIT (demandé en cours) |
 | — | **Extraction affichée pour les 3 modules** (Texte/Lien/Image, événement `extraction` générique à `champs`) + **carte « Comment ce score est calculé »** (preuves par sens + éléments manquants) + **révélation progressive** (`animate-reveal`) + **carrousel de conseils** de responsabilité numérique (6, auto-rotatif) | ✅ FAIT (demandé en cours) |
+| — | **Barre basse recomposée** (Vérifier · Radar · Conseils · Rumeurs, liseré dégradé tornade + actif jaune) ; Historique + À propos déplacés dans le menu ⋯ ; nouvelle page `/conseils` | ✅ FAIT (demandé en cours) |
+| — | **Module RADAR** : carte SVG interactive des 10 régions (contours réels ADM1 geoBoundaries, projetés à la main sans librairie → `data/cameroon-regions.json`), choroplèthe par volume (`data/radar.json` démo), survol/tooltip/clic, `RegionDetailPanel` (panneau desktop / tiroir mobile + mini-graphique), Top 3, légende, bandeau démo, i18n FR/EN. **Données de démonstration.** | ✅ FAIT (demandé en cours) |
 
 **Méthode de travail convenue avec l'utilisateur : s'arrêter après chaque étape
 pour qu'il teste, avant d'enchaîner.**
