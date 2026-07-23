@@ -21,3 +21,13 @@ export function enregistrerNumero(numero: string): void {
     /* stockage indisponible : on ignore silencieusement. */
   }
 }
+
+/** Efface le numéro local (déconnexion). */
+export function effacerNumero(): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(PHONE_KEY);
+  } catch {
+    /* stockage indisponible : on ignore silencieusement. */
+  }
+}

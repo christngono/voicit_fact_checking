@@ -1,9 +1,10 @@
 "use client";
 
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DICT, type Dict, type Locale } from "@/lib/i18n/dictionary";
 import { LOCALE_COOKIE } from "@/lib/i18n/cookie";
+import { lireNumero, enregistrerNumero, effacerNumero } from "@/lib/user";
 
 /**
  * Contexte de langue côté CLIENT.
@@ -15,11 +16,17 @@ import { LOCALE_COOKIE } from "@/lib/i18n/cookie";
 
 interface LocaleCtx {
   locale: Locale;
-  /** Vrai si l'utilisateur a déjà choisi (sinon l'écran de choix s'affiche). */
+  /** Vrai si l'utilisateur a déjà choisi (sinon l'onboarding s'affiche). */
   chosen: boolean;
   /** Dictionnaire localisé prêt à l'emploi. */
   d: Dict;
   setLocale: (l: Locale) => void;
+  /** Numéro saisi à l'onboarding (client uniquement), ou null. */
+  phone: string | null;
+  /** Enregistre le numéro (localStorage + état réactif). */
+  setPhone: (numero: string) => void;
+  /** Déconnexion : oublie langue + numéro → l'onboarding réapparaît. */
+  logout: () => void;
 }
 
 const Ctx = createContext<LocaleCtx | null>(null);
@@ -36,6 +43,10 @@ export function LocaleProvider({
   const router = useRouter();
   const [locale, setLoc] = useState<Locale>(initialLocale);
   const [chosen, setChosen] = useState<boolean>(initialChosen);
+  const [phone, setPhoneState] = useState<string | null>(null);
+
+  // Le numéro vit dans localStorage (client) : on l'hydrate après le montage.
+  useEffect(() => setPhoneState(lireNumero()), []);
 
   const setLocale = useCallback(
     (l: Locale) => {
@@ -54,8 +65,30 @@ export function LocaleProvider({
     [router]
   );
 
+  const setPhone = useCallback((numero: string) => {
+    enregistrerNumero(numero);
+    setPhoneState(numero);
+  }, []);
+
+  const logout = useCallback(() => {
+    // Oublie la langue (cookie) et le numéro → `chosen` repasse à faux et
+    // l'onboarding réapparaît.
+    document.cookie = `${LOCALE_COOKIE}=; path=/; max-age=0; samesite=lax`;
+    try {
+      localStorage.removeItem(LOCALE_COOKIE);
+    } catch {
+      /* stockage indisponible : le cookie effacé suffit. */
+    }
+    effacerNumero();
+    setPhoneState(null);
+    setChosen(false);
+    router.refresh();
+  }, [router]);
+
   return (
-    <Ctx.Provider value={{ locale, chosen, d: DICT[locale], setLocale }}>
+    <Ctx.Provider
+      value={{ locale, chosen, d: DICT[locale], setLocale, phone, setPhone, logout }}
+    >
       {children}
     </Ctx.Provider>
   );

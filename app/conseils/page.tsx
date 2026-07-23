@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageIntro } from "../components/PageIntro";
+import { PageBanner } from "../components/PageBanner";
 import { ConseilsResponsabilite } from "../components/ConseilsResponsabilite";
 import { readLocale } from "@/lib/i18n/server";
 import { getDict } from "@/lib/i18n/dictionary";
@@ -14,7 +14,7 @@ export default function ConseilsPage() {
   const d = getDict(readLocale()).conseilsPage;
   return (
     <div>
-      <PageIntro titre={d.title} sous={d.sub} />
+      <PageBanner image="/conseils.png" titre={d.title} sous={d.sub} />
       <ConseilsResponsabilite />
     </div>
   );

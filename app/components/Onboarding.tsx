@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocale } from "./LocaleProvider";
 import { LogoImage } from "./Logo";
 import { DICT, type Locale } from "@/lib/i18n/dictionary";
 import { normaliserNumero } from "@/lib/phone";
-import { enregistrerNumero } from "@/lib/user";
 
 /**
  * Onboarding d'ouverture (après le splash) — remplace l'ancien écran de choix
@@ -26,11 +25,22 @@ const VISUELS = ["/hero/deinfos1.jpg", "/hero/deinfos2.jpg", "/hero/deinfos3.jpg
 const BADGES: ("texte" | "lien" | "image")[] = ["texte", "lien", "image"];
 
 export function Onboarding() {
-  const { chosen, locale, setLocale } = useLocale();
+  const { chosen, locale, setLocale, setPhone } = useLocale();
   const [preview, setPreview] = useState<Locale>(locale);
   const [etape, setEtape] = useState(0); // 0..2 = fonctions, 3 = langue + numéro
   const [numero, setNumero] = useState("");
   const [err, setErr] = useState("");
+
+  // À chaque réapparition (ouverture initiale OU déconnexion), on repart de la
+  // première diapositive avec un formulaire vierge.
+  useEffect(() => {
+    if (!chosen) {
+      setEtape(0);
+      setNumero("");
+      setErr("");
+      setPreview(locale);
+    }
+  }, [chosen, locale]);
 
   const d = DICT[preview];
   const o = d.onboarding;
@@ -44,7 +54,7 @@ export function Onboarding() {
       setErr(o.phoneError);
       return;
     }
-    enregistrerNumero(norm);
+    setPhone(norm);
     setLocale(preview); // écrit le cookie + refresh → l'onboarding se démonte
   }
 

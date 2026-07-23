@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { Rumeur } from "@/lib/types";
 import { NIVEAU_UI } from "../components/niveau";
-import { PageIntro } from "../components/PageIntro";
+import { PageBanner } from "../components/PageBanner";
 import { readLocale } from "@/lib/i18n/server";
 import { getDict } from "@/lib/i18n/dictionary";
 
@@ -28,7 +28,7 @@ export default function RumeursPage() {
 
   return (
     <div>
-      <PageIntro titre={d.rumeurs.title} sous={d.rumeurs.sub} />
+      <PageBanner image="/rumeur.png" titre={d.rumeurs.title} sous={d.rumeurs.sub} />
 
       {rumeurs.length === 0 ? (
         <p className="rounded-2xl border border-black/5 bg-white p-8 text-center text-sm text-gray-500 shadow-card">

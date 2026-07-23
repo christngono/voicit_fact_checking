@@ -116,6 +116,17 @@ export function IconClose({ className, size = 22 }: IconProps) {
   );
 }
 
+/** Déconnexion — porte + flèche sortante. */
+export function IconLogout({ className, size = 22 }: IconProps) {
+  return (
+    <svg {...base(size, className)}>
+      <path d="M14 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8" />
+      <path d="M16 8l4 4-4 4" />
+      <path d="M20 12H10" />
+    </svg>
+  );
+}
+
 /** Contact / Partenaires — enveloppe. */
 export function IconMail({ className, size = 22 }: IconProps) {
   return (

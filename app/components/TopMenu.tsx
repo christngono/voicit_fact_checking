@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { IconPlus, IconHistorique, IconInfo, IconFlag, IconMail } from "./Icons";
-import { useT } from "./LocaleProvider";
+import { IconPlus, IconHistorique, IconInfo, IconFlag, IconMail, IconLogout } from "./Icons";
+import { useLocale } from "./LocaleProvider";
 
 type Entree = {
   href: string;
@@ -29,7 +29,7 @@ export function TopMenu() {
   const [ouvert, setOuvert] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const d = useT();
+  const { d, logout } = useLocale();
 
   // Ferme le menu à chaque changement de page.
   useEffect(() => setOuvert(false), [pathname]);
@@ -92,6 +92,25 @@ export function TopMenu() {
               </span>
             </Link>
           ))}
+
+          {/* Déconnexion : oublie langue + numéro → retour à l'onboarding. */}
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              setOuvert(false);
+              logout();
+            }}
+            className="flex w-full items-start gap-3 border-t border-black/5 px-4 py-3 text-left transition hover:bg-gray-50"
+          >
+            <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-50 text-verdict-faux">
+              <IconLogout className="h-[18px] w-[18px]" />
+            </span>
+            <span className="min-w-0">
+              <span className="block text-sm font-semibold text-verdict-faux">{d.menu.logout}</span>
+              <span className="mt-0.5 block text-xs text-gray-500">{d.menu.logoutDesc}</span>
+            </span>
+          </button>
         </div>
       )}
     </div>

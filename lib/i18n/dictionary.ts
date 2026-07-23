@@ -38,6 +38,8 @@ const fr = {
     contesterDesc: "Signaler un verdict que vous jugez inexact",
     contact: "Contact / Partenaires",
     contactDesc: "Acteurs professionnels & accès API",
+    logout: "Se déconnecter",
+    logoutDesc: "Oublier langue et numéro, revoir l'accueil",
   },
 
   gate: {
@@ -436,6 +438,8 @@ const en: typeof fr = {
     contesterDesc: "Report a verdict you find inaccurate",
     contact: "Contact / Partners",
     contactDesc: "Professional actors & API access",
+    logout: "Log out",
+    logoutDesc: "Forget language and number, see onboarding again",
   },
 
   gate: {
