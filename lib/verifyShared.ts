@@ -37,6 +37,12 @@ export interface ResultatRecherche {
   sources: Source[];
   resumeWeb: string;
   rechercheDisponible: boolean;
+  /**
+   * Renseigné UNIQUEMENT quand une recherche a été tentée puis a échoué.
+   * "quota" = crédit/quota API épuisé (à afficher honnêtement à l'utilisateur).
+   * `undefined` s'il n'y avait rien à chercher (aucune affirmation).
+   */
+  raisonIndisponible?: "quota" | "erreur";
 }
 
 /**
@@ -53,6 +59,7 @@ export async function evaluerParRecherche(
   const sourcesOut: Source[] = [];
   let resumeWeb = "";
   let rechercheDisponible = false;
+  let raisonIndisponible: "quota" | "erreur" | undefined;
 
   if (affirmationsTxt.length > 0) {
     const entete =
@@ -64,8 +71,13 @@ export async function evaluerParRecherche(
     const recherche = await withTimeout(
       llm.searchAndAnswer(requete),
       BUDGET_RECHERCHE,
-      { available: false, text: "", sources: [] as Source[] }
+      { available: false, text: "", sources: [] as Source[], raison: "erreur" as const }
     );
+
+    if (!recherche.available) {
+      // Recherche tentée mais échouée : on retient la cause pour l'afficher.
+      raisonIndisponible = recherche.raison ?? "erreur";
+    }
 
     if (recherche.available) {
       rechercheDisponible = true;
@@ -95,7 +107,14 @@ export async function evaluerParRecherche(
     }
   }
 
-  return { signaux, affirmations, sources: sourcesOut, resumeWeb, rechercheDisponible };
+  return {
+    signaux,
+    affirmations,
+    sources: sourcesOut,
+    resumeWeb,
+    rechercheDisponible,
+    raisonIndisponible,
+  };
 }
 
 /**

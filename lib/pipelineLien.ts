@@ -143,6 +143,9 @@ export async function verifierLien(
   emit({ type: "etape", id: "web", statut: "termine", label: "Recherche de sources sur le web" });
 
   if (!web.rechercheDisponible) {
+    if (web.raisonIndisponible) {
+      emit({ type: "web_indisponible", raison: web.raisonIndisponible });
+    }
     signaux.push({
       code: "recherche_indisponible",
       sens: "neutre",

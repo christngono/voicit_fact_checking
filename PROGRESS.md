@@ -40,6 +40,7 @@ Corollaires :
 | — | Splash screen animé (logo) + message d'aide « comment utiliser » | ✅ FAIT (hors plan, demandé en cours) |
 | — | Renommage marque **VoiCit → VoCit** partout (identifiants techniques exclus) | ✅ FAIT (demandé en cours) |
 | — | **i18n FR/EN** : écran de choix après splash + interface bilingue + explications LLM localisées | ✅ FAIT (demandé en cours) |
+| — | **Transparence extraction image** (OCR/description/affirmations affichés) + **bandeau « crédit API épuisé »** quand la recherche web ne peut pas se lancer | ✅ FAIT (demandé en cours) |
 
 **Méthode de travail convenue avec l'utilisateur : s'arrêter après chaque étape
 pour qu'il teste, avant d'enchaîner.**

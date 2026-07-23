@@ -70,6 +70,9 @@ export async function verifierImage(
   const affirmationsTxt = (analyse.affirmations || []).slice(0, 4);
   emit({ type: "etape", id: "extraction", statut: "termine", label: "Lecture de l'image (OCR)" });
 
+  // Montre à l'utilisateur ce que VoCit a réellement lu sur l'image (informatif).
+  emit({ type: "extraction", ocr, description, affirmations: affirmationsTxt });
+
   // ── Étape 3 : signal de FORME (montage / IA) — poids faible, sans appel ─────
   emit({ type: "etape", id: "affirmations", statut: "en_cours", label: "Affirmation véhiculée" });
   const signaux: Signal[] = [];
@@ -106,6 +109,9 @@ export async function verifierImage(
   emit({ type: "etape", id: "web", statut: "termine", label: "Recherche de sources sur le web" });
 
   if (!web.rechercheDisponible) {
+    if (web.raisonIndisponible) {
+      emit({ type: "web_indisponible", raison: web.raisonIndisponible });
+    }
     signaux.push({
       code: "recherche_indisponible",
       sens: "neutre",

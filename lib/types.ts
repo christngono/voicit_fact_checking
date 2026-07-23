@@ -156,4 +156,30 @@ export interface ErreurEvent {
   message: string;
 }
 
-export type StreamEvent = EtapeEvent | ResultEvent | ErreurEvent;
+/**
+ * Contenu réellement extrait d'une image (module IMAGE) : montré à l'utilisateur
+ * pour qu'il voie ce que VoCit a lu avant de conclure. Purement informatif —
+ * n'intervient pas dans le verdict (calculé par `scoring.ts`).
+ */
+export interface ExtractionEvent {
+  type: "extraction";
+  ocr: string;
+  description: string;
+  affirmations: string[];
+}
+
+/**
+ * La recherche web n'a pas pu être lancée. `raison === "quota"` = crédit/quota
+ * API épuisé. Affiché honnêtement plutôt qu'un faux « rien trouvé ».
+ */
+export interface WebIndisponibleEvent {
+  type: "web_indisponible";
+  raison: "quota" | "erreur";
+}
+
+export type StreamEvent =
+  | EtapeEvent
+  | ResultEvent
+  | ErreurEvent
+  | ExtractionEvent
+  | WebIndisponibleEvent;

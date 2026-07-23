@@ -102,6 +102,90 @@ export function ClaimList({ affirmations }: { affirmations: Affirmation[] }) {
   );
 }
 
+/**
+ * Ce que VoCit a réellement LU sur l'image (OCR + description + affirmations).
+ * Purement informatif : n'intervient pas dans le verdict.
+ */
+export function ExtractedInfo({
+  ocr,
+  description,
+  affirmations,
+}: {
+  ocr: string;
+  description: string;
+  affirmations: string[];
+}) {
+  const d = useT();
+  const rien = !ocr && !description && affirmations.length === 0;
+  return (
+    <Section titre={d.extraction.title}>
+      <div className="space-y-3">
+        {ocr ? (
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-gray-400">
+              {d.extraction.ocrLabel}
+            </p>
+            <p className="whitespace-pre-wrap rounded-lg bg-gray-50 p-3 text-sm text-ink/85">
+              {ocr}
+            </p>
+          </div>
+        ) : null}
+        {description ? (
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-gray-400">
+              {d.extraction.descLabel}
+            </p>
+            <p className="text-sm text-ink/85">{description}</p>
+          </div>
+        ) : null}
+        {affirmations.length > 0 ? (
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-gray-400">
+              {d.extraction.claimsLabel}
+            </p>
+            <ul className="space-y-1.5">
+              {affirmations.map((a, i) => (
+                <li key={i} className="flex gap-2 text-sm text-ink/85">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
+                  <span>{a}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {rien && <p className="text-sm text-gray-400">{d.extraction.empty}</p>}
+        <p className="border-t border-black/5 pt-2 text-xs text-gray-400">{d.extraction.note}</p>
+      </div>
+    </Section>
+  );
+}
+
+/**
+ * Bandeau honnête quand la recherche web n'a pas pu être lancée.
+ * `raison === "quota"` = crédit/quota API épuisé (message dédié).
+ */
+export function WebUnavailableNotice({ raison }: { raison: "quota" | "erreur" }) {
+  const d = useT();
+  const quota = raison === "quota";
+  return (
+    <div className="rounded-2xl border border-accent-yellow/50 bg-accent-yellow/10 p-4">
+      <div className="flex items-start gap-3">
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent-yellow text-sm text-ink">
+          !
+        </span>
+        <div>
+          <h3 className="text-sm font-semibold text-ink">
+            {quota ? d.webNotice.quotaTitle : d.webNotice.errTitle}
+          </h3>
+          <p className="mt-1 text-sm leading-relaxed text-ink/75">
+            {quota ? d.webNotice.quotaBody : d.webNotice.errBody}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AdviceBox({ conseil }: { conseil: string }) {
   const d = useT();
   return (

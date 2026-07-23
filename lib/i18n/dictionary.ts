@@ -135,6 +135,24 @@ const fr = {
     },
   },
 
+  extraction: {
+    title: "Ce que VoCit a lu sur l'image",
+    ocrLabel: "Texte détecté (OCR)",
+    descLabel: "Description visuelle",
+    claimsLabel: "Affirmations véhiculées",
+    empty: "Aucun texte lisible détecté sur l'image.",
+    note: "Éléments extraits automatiquement, à titre indicatif. Ils ne décident pas du verdict.",
+  },
+
+  webNotice: {
+    quotaTitle: "Recherche web non effectuée",
+    quotaBody:
+      "Le crédit d'API disponible est épuisé : VoCit n'a pas pu lancer la recherche web pour croiser les sources. Le résultat s'appuie donc uniquement sur les éléments déjà disponibles — il reste prudent.",
+    errTitle: "Recherche web indisponible",
+    errBody:
+      "La recherche web n'a pas pu aboutir (service momentanément indisponible). Le résultat s'appuie uniquement sur les éléments déjà disponibles.",
+  },
+
   niveaux: {
     fiable: "Fiable",
     douteux: "Douteux",
@@ -389,6 +407,24 @@ const en: typeof fr = {
       non_trouvee: "Not found",
       non_verifiee: "Not checked",
     },
+  },
+
+  extraction: {
+    title: "What VoCit read on the image",
+    ocrLabel: "Detected text (OCR)",
+    descLabel: "Visual description",
+    claimsLabel: "Conveyed claims",
+    empty: "No readable text detected on the image.",
+    note: "Automatically extracted, for information only. It does not decide the verdict.",
+  },
+
+  webNotice: {
+    quotaTitle: "Web search not performed",
+    quotaBody:
+      "The available API credit is exhausted: VoCit could not run the web search to cross-check sources. The result therefore relies only on the elements already available — it stays cautious.",
+    errTitle: "Web search unavailable",
+    errBody:
+      "The web search could not complete (service temporarily unavailable). The result relies only on the elements already available.",
   },
 
   niveaux: {

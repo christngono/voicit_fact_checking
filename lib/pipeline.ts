@@ -93,6 +93,9 @@ export async function verifierTexte(
 
   // Recherche impossible / vide : signal neutre explicite (jamais de source inventée).
   if (!web.rechercheDisponible) {
+    if (web.raisonIndisponible) {
+      emit({ type: "web_indisponible", raison: web.raisonIndisponible });
+    }
     signaux.push({
       code: "recherche_indisponible",
       sens: "neutre",

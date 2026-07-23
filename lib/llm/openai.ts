@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import type { LLMOptions, LLMProvider, SearchResult } from "./types";
+import { raisonEchecRecherche } from "./types";
 import type { Source } from "../types";
 import { parseJSONLoose } from "./json";
 
@@ -96,10 +97,12 @@ export class OpenAIProvider implements LLMProvider {
         sources: dedupe(sources),
       };
     } catch (err) {
+      const message = (err as Error).message || "";
       return {
         available: false,
-        text: "recherche indisponible : " + (err as Error).message,
+        text: "recherche indisponible : " + message,
         sources: [],
+        raison: raisonEchecRecherche(message),
       };
     }
   }

@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import type { LLMOptions, LLMProvider, SearchResult } from "./types";
+import { raisonEchecRecherche } from "./types";
 import type { Source } from "../types";
 import { parseJSONLoose } from "./json";
 
@@ -83,10 +84,12 @@ export class GeminiProvider implements LLMProvider {
       return { available: true, text: res.text ?? "", sources };
     } catch (err) {
       // Repli explicite : jamais de sources inventées.
+      const message = (err as Error).message || "";
       return {
         available: false,
-        text: "recherche indisponible : " + (err as Error).message,
+        text: "recherche indisponible : " + message,
         sources: [],
+        raison: raisonEchecRecherche(message),
       };
     }
   }

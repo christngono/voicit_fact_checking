@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { LLMOptions, LLMProvider, SearchResult } from "./types";
+import { raisonEchecRecherche } from "./types";
 import type { Source } from "../types";
 import { parseJSONLoose } from "./json";
 
@@ -110,10 +111,12 @@ export class ClaudeProvider implements LLMProvider {
       }
       return { available: true, text, sources: dedupe(sources) };
     } catch (err) {
+      const message = (err as Error).message || "";
       return {
         available: false,
-        text: "recherche indisponible : " + (err as Error).message,
+        text: "recherche indisponible : " + message,
         sources: [],
+        raison: raisonEchecRecherche(message),
       };
     }
   }

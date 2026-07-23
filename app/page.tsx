@@ -5,7 +5,14 @@ import type { StreamEvent, TypeContenu, VerifyResult } from "@/lib/types";
 import { Hero } from "./components/Hero";
 import { ProgressSteps, construireEtapes, type EtapeUI } from "./components/ProgressSteps";
 import { VerdictCard } from "./components/VerdictCard";
-import { EvidenceList, SourceList, ClaimList, AdviceBox } from "./components/ResultParts";
+import {
+  EvidenceList,
+  SourceList,
+  ClaimList,
+  AdviceBox,
+  ExtractedInfo,
+  WebUnavailableNotice,
+} from "./components/ResultParts";
 import { RecentRumors } from "./components/RecentRumors";
 import { ajouterHistorique } from "@/lib/history";
 import { useLocale } from "./components/LocaleProvider";
@@ -39,6 +46,14 @@ export default function Accueil() {
   const [etapes, setEtapes] = useState<EtapeUI[]>([]);
   const [resultat, setResultat] = useState<VerifyResult | null>(null);
   const [erreur, setErreur] = useState<string>("");
+  // Contenu extrait de l'image (module IMAGE) — montré en direct puis au résultat.
+  const [extraction, setExtraction] = useState<{
+    ocr: string;
+    description: string;
+    affirmations: string[];
+  } | null>(null);
+  // Recherche web non lancée (crédit/quota API épuisé ou autre panne).
+  const [webIndispo, setWebIndispo] = useState<"quota" | "erreur" | null>(null);
   const fichierRef = useRef<HTMLInputElement>(null);
 
   const estLien = onglet === "lien";
@@ -84,6 +99,8 @@ export default function Accueil() {
     setEtat("analyse");
     setResultat(null);
     setErreur("");
+    setExtraction(null);
+    setWebIndispo(null);
     const module = estImage ? "image" : estLien ? "link" : "text";
     const labels = estImage ? d.steps.image : estLien ? d.steps.link : d.steps.text;
     setEtapes(construireEtapes(module, labels));
@@ -150,6 +167,14 @@ export default function Accueil() {
             : e
         )
       );
+    } else if (evt.type === "extraction") {
+      setExtraction({
+        ocr: evt.ocr,
+        description: evt.description,
+        affirmations: evt.affirmations,
+      });
+    } else if (evt.type === "web_indisponible") {
+      setWebIndispo(evt.raison);
     } else if (evt.type === "resultat") {
       setResultat(evt.data);
       setEtat("resultat");
@@ -173,6 +198,8 @@ export default function Accueil() {
     setImageData("");
     setImageNom("");
     setErreur("");
+    setExtraction(null);
+    setWebIndispo(null);
     if (fichierRef.current) fichierRef.current.value = "";
   }
 
@@ -328,12 +355,20 @@ export default function Accueil() {
       ) : null}
 
       {/* Analyse en cours */}
-      {etat === "analyse" && <ProgressSteps etapes={etapes} />}
+      {etat === "analyse" && (
+        <div className="space-y-4">
+          <ProgressSteps etapes={etapes} />
+          {extraction && <ExtractedInfo {...extraction} />}
+          {webIndispo && <WebUnavailableNotice raison={webIndispo} />}
+        </div>
+      )}
 
       {/* Résultat */}
       {etat === "resultat" && resultat && (
         <div className="space-y-4">
           <VerdictCard r={resultat} />
+          {webIndispo && <WebUnavailableNotice raison={webIndispo} />}
+          {extraction && <ExtractedInfo {...extraction} />}
           <EvidenceList composantes={resultat.composantes} />
           <SourceList sources={resultat.sources} />
           <ClaimList affirmations={resultat.affirmations} />

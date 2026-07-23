@@ -49,4 +49,23 @@ export interface SearchResult {
   available: boolean;
   text: string;
   sources: Source[];
+  /**
+   * Renseigné quand `available === false`. Distingue le manque de crédit/quota
+   * API ("quota") d'une autre panne technique ("erreur"), pour l'afficher
+   * honnêtement à l'utilisateur (jamais un faux « rien trouvé »).
+   */
+  raison?: "quota" | "erreur";
+}
+
+/**
+ * Devine, à partir d'un message d'erreur fournisseur, si la recherche a échoué
+ * faute de crédit / quota API (429, RESOURCE_EXHAUSTED, quota, facturation…).
+ * Partagé par tous les providers pour un diagnostic homogène.
+ */
+export function raisonEchecRecherche(message: string): "quota" | "erreur" {
+  return /quota|resource[_ ]?exhausted|429|rate.?limit|insufficient|billing|credit|exceeded/i.test(
+    message
+  )
+    ? "quota"
+    : "erreur";
 }
